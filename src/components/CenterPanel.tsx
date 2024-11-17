@@ -1,18 +1,23 @@
+// src/components/CenterPanel.tsx
 'use client'
 
 import React from 'react'
-import Toolbar from './CenterPanel/Toolbar'
-import Editor from './CenterPanel/Editor'
+import { Button } from "@/components/ui/button"
 
-const CenterPanel = () => {
+export default function CenterPanel() {
   return (
-    <div className="flex flex-col h-full">
-      <Toolbar />
-      <div className="flex-1 overflow-auto p-4">
-        <Editor />
+    <div className="h-full flex flex-col">
+      <div className="flex gap-2 mb-4">
+        <Button variant="default">Copy</Button>
+        <Button variant="destructive">Highlight Red</Button>
+        <Button className="bg-green-500 hover:bg-green-600">Highlight Green</Button>
+      </div>
+      <div className="flex-1">
+        <textarea 
+          className="w-full h-full p-4 border rounded-md resize-none"
+          placeholder="Enter your text here..."
+        />
       </div>
     </div>
   )
 }
-
-export default CenterPanel

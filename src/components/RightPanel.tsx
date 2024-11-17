@@ -1,25 +1,28 @@
-// RightPanel.tsx
+// src/components/RightPanel.tsx
 'use client'
 
 import React, { useState } from 'react'
-import TabManager from './RightPanel/TabManager'
-import TabContent from './RightPanel/TabContent'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
-// Client component with state
-export const RightPanel = () => {
-  const [activeTab, setActiveTab] = useState(0)
+export function RightPanelContainer() {
+  const [activeTab, setActiveTab] = useState("tab1")
 
   return (
-    <div className="flex flex-col h-full bg-gray-50">
-      <TabManager activeTab={activeTab} setActiveTab={setActiveTab} />
-      <div className="flex-1 overflow-auto p-4">
-        <TabContent activeTab={activeTab} />
-      </div>
-    </div>
+    <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full flex flex-col">
+      <TabsList>
+        <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+        <TabsTrigger value="tab2">Tab 2</TabsTrigger>
+        <TabsTrigger value="tab3">Tab 3</TabsTrigger>
+      </TabsList>
+      <TabsContent value="tab1" className="flex-1">
+        <div className="p-4">Content for Tab 1</div>
+      </TabsContent>
+      <TabsContent value="tab2" className="flex-1">
+        <div className="p-4">Content for Tab 2</div>
+      </TabsContent>
+      <TabsContent value="tab3" className="flex-1">
+        <div className="p-4">Content for Tab 3</div>
+      </TabsContent>
+    </Tabs>
   )
-}
-
-// Server component wrapper
-export const RightPanelContainer = () => {
-  return <RightPanel />
 }

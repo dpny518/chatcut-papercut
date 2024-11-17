@@ -1,5 +1,7 @@
+// src/app/layout.tsx
 import { SidebarProvider } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/AppSidebar"
+import { FileSystemProvider } from "@/contexts/FileSystemContext"
+import { AppSidebar } from "@/components/AppSideBar"
 import CenterPanel from "@/components/CenterPanel"
 import { RightPanelContainer } from "@/components/RightPanel"
 import './globals.css'
@@ -21,21 +23,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SidebarProvider>
-          <div className="flex h-screen overflow-hidden">
-            <div className="w-64 flex-shrink-0">
-              <AppSidebar />
-            </div>
-            <div className="flex flex-1 min-w-0">
-              <div className="w-[45%] border-r border-gray-200">
+        <FileSystemProvider>
+          <SidebarProvider>
+            <div className="grid h-screen grid-cols-[280px_minmax(500px,_1fr)_minmax(500px,_1fr)]">
+              <div className="border-r border-gray-200">
+                <AppSidebar />
+              </div>
+              <div className="border-r border-gray-200 p-4">
                 <CenterPanel />
               </div>
-              <div className="w-[45%]">
+              <div className="p-4">
                 <RightPanelContainer />
               </div>
             </div>
-          </div>
-        </SidebarProvider>
+          </SidebarProvider>
+        </FileSystemProvider>
       </body>
     </html>
   )
