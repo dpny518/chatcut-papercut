@@ -1,10 +1,9 @@
 // src/app/layout.tsx
 import { Inter } from 'next/font/google'
-import { FileSystemProvider } from "@/contexts/FileSystemContext"
-import { SidebarProvider } from "@/components/ui/sidebar"
+import { Providers } from "@/components/Providers"
 import { AppSidebar } from "@/components/AppSideBar"
 import CenterPanel from "@/components/CenterPanel"
-import { RightPanelContainer } from "@/components/RightPanel"
+import { RightPanel } from "@/components/RightPanel"
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -17,33 +16,30 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <FileSystemProvider>
-          <SidebarProvider>
-            <div className="flex h-screen overflow-hidden">
-              {/* Left Panel - Collapsible on smaller screens */}
-              <div className="w-[10%] min-w-[200px] flex-shrink-0 border-r border-gray-200 overflow-auto
-                              fixed inset-y-0 left-0 z-30 bg-white
-                              transform transition-transform duration-300 ease-in-out
-                              lg:relative lg:translate-x-0
-                              -translate-x-full">
-                <AppSidebar />
+        <Providers>
+          <div className="flex h-screen overflow-hidden">
+            {/* Left Panel - AppSidebar */}
+            <div className="w-64 flex-shrink-0 border-r border-gray-200 overflow-auto
+                            bg-white z-30
+                            lg:relative
+                            transition-all duration-300 ease-in-out">
+              <AppSidebar />
+            </div>
+            
+            {/* Main content area */}
+            <div className="flex-grow flex flex-col lg:flex-row overflow-hidden">
+              {/* Center Panel */}
+              <div className="flex-1 min-w-0 overflow-auto lg:w-1/2">
+                <CenterPanel />
               </div>
               
-              {/* Main content area */}
-              <div className="flex-grow flex flex-col lg:flex-row overflow-hidden">
-                {/* Center Panel */}
-                <div className="flex-1 min-w-0 overflow-auto lg:w-[50%]">
-                  <CenterPanel />
-                </div>
-                
-                {/* Right Panel */}
-                <div className="flex-1 min-w-0 overflow-auto lg:w-[50%] border-l border-gray-200">
-                  <RightPanelContainer />
-                </div>
+              {/* Right Panel */}
+              <div className="flex-1 min-w-0 overflow-auto lg:w-1/2 border-l border-gray-200">
+                <RightPanel />
               </div>
             </div>
-          </SidebarProvider>
-        </FileSystemProvider>
+          </div>
+        </Providers>
       </body>
     </html>
   )

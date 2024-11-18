@@ -2,36 +2,51 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useRightPanel } from '@/contexts/RightPanelContext'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 
-export function RightPanelContainer() {
-  const [activeTab, setActiveTab] = useState("tab1")
+export const RightPanel: React.FC = () => {
+  const { tabs, activeTabId, addTab, renameTab, setActiveTab, cursorPositions } = useRightPanel()
+  const [editingTabId, setEditingTabId] = useState<string | null>(null)
 
   return (
-    <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full flex flex-col">
-      <TabsList className="flex justify-start overflow-x-auto border-b border-gray-200">
-        <TabsTrigger value="tab1" className="flex-shrink-0">Editor</TabsTrigger>
-        <TabsTrigger value="tab2" className="flex-shrink-0">Preview</TabsTrigger>
-        <TabsTrigger value="tab3" className="flex-shrink-0">Settings</TabsTrigger>
-      </TabsList>
-      <TabsContent value="tab1" className="flex-1 overflow-auto">
-        <textarea 
-          className="w-full h-full p-4 border-0 resize-none focus:outline-none"
-          placeholder="Enter your text here..."
-        />
-      </TabsContent>
-      <TabsContent value="tab2" className="flex-1 overflow-auto">
-        <div className="p-4">
-          <h2 className="text-lg font-semibold mb-2">Preview</h2>
-          <p>Your rendered content will appear here.</p>
-        </div>
-      </TabsContent>
-      <TabsContent value="tab3" className="flex-1 overflow-auto">
-        <div className="p-4">
-          <h2 className="text-lg font-semibold mb-2">Settings</h2>
-          <p>Editor settings and options will be displayed here.</p>
-        </div>
-      </TabsContent>
-    </Tabs>
+    <div className="h-full flex flex-col">
+      <div className="flex border-b">
+        {tabs.map(tab => (
+          <div
+            key={tab.id}
+            className={`px-4 py-2 cursor-pointer ${activeTabId === tab.id ? 'bg-gray-200' : ''}`}
+            onClick={() => setActiveTab(tab.id)}
+          >
+            {editingTabId === tab.id ? (
+              <input
+                value={tab.name}
+                onChange={(e) => renameTab(tab.id, e.target.value)}
+                onBlur={() => setEditingTabId(null)}
+                autoFocus
+              />
+            ) : (
+              <span onDoubleClick={() => setEditingTabId(tab.id)}>{tab.name}</span>
+            )}
+          </div>
+        ))}
+        <button onClick={addTab}>+</button>
+      </div>
+      <div className="flex-1 overflow-auto p-4">
+        {tabs.find(tab => tab.id === activeTabId)?.content.map((item, index) => (
+          <HoverCard key={index}>
+            <HoverCardTrigger>
+              <span>{item.text}</span>
+            </HoverCardTrigger>
+            <HoverCardContent>
+              <p>Source: {item.metadata[0].sourceFile}</p>
+              <p>Segment: {item.metadata[0].sourceSegment}</p>
+              <p>Word: {item.metadata[0].sourceWord}</p>
+            </HoverCardContent>
+          </HoverCard>
+        ))}
+        <span className="animate-pulse">|</span>
+      </div>
+    </div>
   )
 }
