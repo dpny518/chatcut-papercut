@@ -1,19 +1,13 @@
 // src/app/layout.tsx
-import { SidebarProvider } from "@/components/ui/sidebar"
+import { Inter } from 'next/font/google'
 import { FileSystemProvider } from "@/contexts/FileSystemContext"
+import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSideBar"
 import CenterPanel from "@/components/CenterPanel"
 import { RightPanelContainer } from "@/components/RightPanel"
 import './globals.css'
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
-
-export const metadata: Metadata = {
-  title: 'ChatCut PaperCut',
-  description: 'A Next.js based editor application',
-}
 
 export default function RootLayout({
   children,
@@ -25,15 +19,27 @@ export default function RootLayout({
       <body className={inter.className}>
         <FileSystemProvider>
           <SidebarProvider>
-            <div className="grid h-screen grid-cols-[280px_minmax(500px,_1fr)_minmax(500px,_1fr)]">
-              <div className="border-r border-gray-200">
+            <div className="flex h-screen overflow-hidden">
+              {/* Left Panel - Collapsible on smaller screens */}
+              <div className="w-[280px] flex-shrink-0 border-r border-gray-200 overflow-auto
+                              fixed inset-y-0 left-0 z-30 bg-white
+                              transform transition-transform duration-300 ease-in-out
+                              lg:relative lg:translate-x-0
+                              -translate-x-full">
                 <AppSidebar />
               </div>
-              <div className="border-r border-gray-200 p-4">
-                <CenterPanel />
-              </div>
-              <div className="p-4">
-                <RightPanelContainer />
+              
+              {/* Main content area */}
+              <div className="flex-grow flex flex-col lg:flex-row overflow-hidden">
+                {/* Center Panel */}
+                <div className="flex-1 min-w-0 p-4 border-r border-gray-200 overflow-auto">
+                  <CenterPanel />
+                </div>
+                
+                {/* Right Panel */}
+                <div className="flex-1 min-w-0 p-4 overflow-auto lg:w-[40%]">
+                  <RightPanelContainer />
+                </div>
               </div>
             </div>
           </SidebarProvider>

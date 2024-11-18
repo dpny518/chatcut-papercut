@@ -1,69 +1,185 @@
 // src/contexts/FileSystemContext.tsx
 'use client'
 
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useState, useCallback } from 'react'
 
-// Types (you can also move these to src/types/fileSystem.ts)
 export type FileType = 'folder' | 'file' | 'image'
 
-export type FileSystemItem = {
+export interface FileSystemItem {
   id: string
   name: string
   type: FileType
-  children?: FileSystemItem[]
+  parentId: string | null
+  order: number
+  content?: string
 }
 
-type FileSystemContextType = {
-  files: FileSystemItem[]
-  addFile: (file: FileSystemItem, parentId?: string) => void
-  createFolder: (name: string, parentId?: string) => void
+interface FileSystemContextType {
+  files: { [id: string]: FileSystemItem }
+  selectedItems: string[]
+  addFile: (file: Omit<FileSystemItem, 'id' | 'order'>) => void
+  createFolder: (name: string, parentId: string | null) => void
+  moveItem: (itemId: string, newParentId: string | null, beforeId: string | null) => void
+  deleteItem: (itemId: string) => void
+  renameItem: (itemId: string, newName: string) => void
+  toggleItemSelection: (itemId: string) => void
+  updateFileContent: (fileId: string, newContent: string) => void
+  readFileContent: (file: File) => Promise<string>
+  logStructure: () => void
 }
 
-export const FileSystemContext = createContext<FileSystemContextType | undefined>(undefined)
+const FileSystemContext = createContext<FileSystemContextType | undefined>(undefined)
 
 export const FileSystemProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [files, setFiles] = useState<FileSystemItem[]>([])
+  const [files, setFiles] = useState<{ [id: string]: FileSystemItem }>({})
+  const [selectedItems, setSelectedItems] = useState<string[]>([])
 
-  const addFile = (file: FileSystemItem, parentId?: string) => {
-    if (!parentId) {
-      setFiles(prev => [...prev, file])
-      return
-    }
-
-    setFiles(prev => {
-      const updateChildren = (items: FileSystemItem[]): FileSystemItem[] => {
-        return items.map(item => {
-          if (item.id === parentId) {
-            return {
-              ...item,
-              children: [...(item.children || []), file]
-            }
-          }
-          if (item.children) {
-            return {
-              ...item,
-              children: updateChildren(item.children)
-            }
-          }
-          return item
-        })
-      }
-      return updateChildren(prev)
-    })
+  // Helper to get sorted items in a directory
+  const getDirectoryItems = (parentId: string | null) => {
+    return Object.values(files)
+      .filter(file => file.parentId === parentId)
+      .sort((a, b) => a.order - b.order)
   }
 
-  const createFolder = (name: string, parentId?: string) => {
-    const newFolder: FileSystemItem = {
-      id: Math.random().toString(36).slice(2),
-      name,
-      type: 'folder',
-      children: []
+  // Helper to generate a new order value between two items
+  const generateOrder = (beforeItem: FileSystemItem | null, afterItem: FileSystemItem | null) => {
+    const beforeOrder = beforeItem?.order ?? 0
+    const afterOrder = afterItem?.order ?? beforeOrder + 1000
+    return beforeOrder + (afterOrder - beforeOrder) / 2
+  }
+
+  const addFile = useCallback((file: Omit<FileSystemItem, 'id' | 'order'>) => {
+    const id = Math.random().toString(36).substr(2, 9)
+    setFiles(prev => {
+      const directoryItems = getDirectoryItems(file.parentId)
+      const lastItem = directoryItems[directoryItems.length - 1]
+      const order = lastItem ? lastItem.order + 1000 : 1000
+
+      return {
+        ...prev,
+        [id]: { ...file, id, order, content: file.content || '' }
+      }
+    })
+  }, [])
+
+  const createFolder = useCallback((name: string, parentId: string | null) => {
+    addFile({ name, type: 'folder', parentId })
+  }, [addFile])
+
+  const moveItem = useCallback((itemId: string, newParentId: string | null, beforeId: string | null) => {
+    setFiles(prev => {
+      const newFiles = { ...prev }
+      const item = newFiles[itemId]
+      if (!item) return prev
+
+      const directoryItems = getDirectoryItems(newParentId)
+      let newOrder: number
+
+      if (beforeId === null) {
+        // Moving to the end
+        const lastItem = directoryItems[directoryItems.length - 1]
+        newOrder = lastItem ? lastItem.order + 1000 : 1000
+      } else {
+        // Moving before a specific item
+        const beforeIndex = directoryItems.findIndex(item => item.id === beforeId)
+        const beforeItem = beforeIndex >= 0 ? directoryItems[beforeIndex] : null
+        const afterItem = beforeIndex > 0 ? directoryItems[beforeIndex - 1] : null
+        newOrder = generateOrder(afterItem, beforeItem)
+      }
+
+      newFiles[itemId] = {
+        ...item,
+        parentId: newParentId,
+        order: newOrder
+      }
+
+      return newFiles
+    })
+  }, [])
+
+  const deleteItem = useCallback((itemId: string) => {
+    setFiles(prev => {
+      const newFiles = { ...prev }
+      const itemsToDelete = new Set<string>()
+
+      // Recursively collect items to delete
+      const collectItems = (id: string) => {
+        itemsToDelete.add(id)
+        Object.values(newFiles)
+          .filter(file => file.parentId === id)
+          .forEach(file => collectItems(file.id))
+      }
+
+      collectItems(itemId)
+      itemsToDelete.forEach(id => delete newFiles[id])
+
+      return newFiles
+    })
+    setSelectedItems(prev => prev.filter(id => id !== itemId))
+  }, [])
+
+  const renameItem = useCallback((itemId: string, newName: string) => {
+    setFiles(prev => ({
+      ...prev,
+      [itemId]: { ...prev[itemId], name: newName }
+    }))
+  }, [])
+
+  const toggleItemSelection = useCallback((itemId: string) => {
+    setSelectedItems(prev => 
+      prev.includes(itemId)
+        ? prev.filter(id => id !== itemId)
+        : [...prev, itemId]
+    )
+  }, [])
+
+  const updateFileContent = useCallback((fileId: string, newContent: string) => {
+    setFiles(prev => ({
+      ...prev,
+      [fileId]: { ...prev[fileId], content: newContent }
+    }))
+  }, [])
+
+  const readFileContent = useCallback((file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onload = (event) => resolve(event.target?.result as string)
+      reader.onerror = (error) => reject(error)
+      reader.readAsText(file)
+    })
+  }, [])
+
+  const logStructure = useCallback(() => {
+    const printStructure = (parentId: string | null, depth = 0) => {
+      const items = getDirectoryItems(parentId)
+      items.forEach(item => {
+        console.log(`${'  '.repeat(depth)}${item.name} (${item.type})`)
+        if (item.type === 'folder') {
+          printStructure(item.id, depth + 1)
+        }
+      })
     }
-    addFile(newFolder, parentId)
+
+    console.log('File Structure:')
+    printStructure(null)
+  }, [files])
+
+  const contextValue: FileSystemContextType = {
+    files,
+    selectedItems,
+    addFile,
+    createFolder,
+    moveItem,
+    deleteItem,
+    renameItem,
+    toggleItemSelection,
+    updateFileContent,
+    readFileContent,
+    logStructure
   }
 
   return (
-    <FileSystemContext.Provider value={{ files, addFile, createFolder }}>
+    <FileSystemContext.Provider value={contextValue}>
       {children}
     </FileSystemContext.Provider>
   )
