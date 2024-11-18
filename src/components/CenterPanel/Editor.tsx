@@ -24,6 +24,7 @@ const Editor: React.FC = () => {
     const newContent = e.target.value
     setMergedContent(newContent)
 
+    // Split the content and update each file
     const contentParts = newContent.split('\n\n--------\n\n')
     selectedItems.forEach((id, index) => {
       if (files[id].type === 'file' || files[id].type === 'image') {

@@ -201,22 +201,20 @@ const FileSystemTree: React.FC<{ parentId: string | null }> = ({ parentId }) => 
 }
 
 export function AppSidebar() {
-  const { addFile, readFileContent } = useFileSystem()
+  const { addFile, logStructure } = useFileSystem()
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files
     if (!fileList) return
 
-    for (const file of Array.from(fileList)) {
-      const content = await readFileContent(file)
+    Array.from(fileList).forEach(file => {
       const isImage = file.type.startsWith('image/')
       addFile({
         name: file.name,
         type: isImage ? 'image' : 'file',
-        parentId: null,
-        content: content
+        parentId: null
       })
-    }
+    })
   }
 
   return (

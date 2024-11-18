@@ -1,4 +1,3 @@
-// src/contexts/FileSystemContext.tsx
 'use client'
 
 import React, { createContext, useContext, useState, useCallback } from 'react'
@@ -11,7 +10,6 @@ export interface FileSystemItem {
   type: FileType
   parentId: string | null
   order: number
-  content?: string
 }
 
 interface FileSystemContextType {
@@ -23,8 +21,6 @@ interface FileSystemContextType {
   deleteItem: (itemId: string) => void
   renameItem: (itemId: string, newName: string) => void
   toggleItemSelection: (itemId: string) => void
-  updateFileContent: (fileId: string, newContent: string) => void
-  readFileContent: (file: File) => Promise<string>
   logStructure: () => void
 }
 
@@ -57,7 +53,7 @@ export const FileSystemProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
       return {
         ...prev,
-        [id]: { ...file, id, order, content: file.content || '' }
+        [id]: { ...file, id, order }
       }
     })
   }, [])
@@ -133,22 +129,6 @@ export const FileSystemProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     )
   }, [])
 
-  const updateFileContent = useCallback((fileId: string, newContent: string) => {
-    setFiles(prev => ({
-      ...prev,
-      [fileId]: { ...prev[fileId], content: newContent }
-    }))
-  }, [])
-
-  const readFileContent = useCallback((file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader()
-      reader.onload = (event) => resolve(event.target?.result as string)
-      reader.onerror = (error) => reject(error)
-      reader.readAsText(file)
-    })
-  }, [])
-
   const logStructure = useCallback(() => {
     const printStructure = (parentId: string | null, depth = 0) => {
       const items = getDirectoryItems(parentId)
@@ -164,22 +144,20 @@ export const FileSystemProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     printStructure(null)
   }, [files])
 
-  const contextValue: FileSystemContextType = {
-    files,
-    selectedItems,
-    addFile,
-    createFolder,
-    moveItem,
-    deleteItem,
-    renameItem,
-    toggleItemSelection,
-    updateFileContent,
-    readFileContent,
-    logStructure
-  }
-
   return (
-    <FileSystemContext.Provider value={contextValue}>
+    <FileSystemContext.Provider
+      value={{
+        files,
+        selectedItems,
+        addFile,
+        createFolder,
+        moveItem,
+        deleteItem,
+        renameItem,
+        toggleItemSelection,
+        logStructure
+      }}
+    >
       {children}
     </FileSystemContext.Provider>
   )
