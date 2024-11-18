@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  frontend:
+    # Your existing frontend service configuration here
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app

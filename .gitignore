@@ -38,3 +38,28 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+*.log
+
+# Virtual Environment (for FastAPI)
+venv/
+env/
+*.env
+
+# FastAPI specific (optional, depending on your setup)
+instance/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+db.sqlite3
+
+# macOS system files
+.DS_Store
