@@ -21,7 +21,7 @@ export default function RootLayout({
           <SidebarProvider>
             <div className="flex h-screen overflow-hidden">
               {/* Left Panel - Collapsible on smaller screens */}
-              <div className="w-[280px] flex-shrink-0 border-r border-gray-200 overflow-auto
+              <div className="w-[10%] min-w-[200px] max-w-[280px] flex-shrink-0 border-r border-gray-200 overflow-auto
                               fixed inset-y-0 left-0 z-30 bg-white
                               transform transition-transform duration-300 ease-in-out
                               lg:relative lg:translate-x-0
@@ -30,14 +30,14 @@ export default function RootLayout({
               </div>
               
               {/* Main content area */}
-              <div className="flex-grow flex flex-col lg:flex-row overflow-hidden">
+              <div className="flex-1 flex overflow-hidden">
                 {/* Center Panel */}
-                <div className="flex-1 min-w-0 p-4 border-r border-gray-200 overflow-auto">
+                <div className="w-[50%] overflow-auto">
                   <CenterPanel />
                 </div>
                 
                 {/* Right Panel */}
-                <div className="flex-1 min-w-0 p-4 overflow-auto lg:w-[40%]">
+                <div className="w-[50%] overflow-auto border-l border-gray-200">
                   <RightPanelContainer />
                 </div>
               </div>

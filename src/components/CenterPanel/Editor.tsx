@@ -34,9 +34,9 @@ const Editor: React.FC = () => {
   }
 
   return (
-    <div className="flex-1 p-4 overflow-auto">
+    <div className="h-full">
       <textarea 
-        className="w-full h-full p-2 border rounded resize-none"
+        className="w-full h-full p-4 border-0 resize-none focus:outline-none"
         placeholder={selectedItems.length > 0 ? "Edit your files here..." : "Select files to edit"}
         value={mergedContent}
         onChange={handleContentChange}

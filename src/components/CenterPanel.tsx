@@ -22,8 +22,8 @@ export default function CenterPanel() {
   }
 
   return (
-    <div className="h-full flex flex-col p-4">
-      <div className="flex flex-wrap gap-2 mb-4">
+    <div className="h-full flex flex-col">
+      <div className="flex flex-wrap gap-2 p-4 border-b border-gray-200">
         <Button variant="default" size="sm" onClick={handleCopy}>Copy</Button>
         <Button variant="destructive" size="sm" onClick={handleHighlightRed}>Highlight Red</Button>
         <Button 
@@ -35,7 +35,7 @@ export default function CenterPanel() {
           Highlight Green
         </Button>
       </div>
-      <div className="flex-1 min-h-0">
+      <div className="flex-1 overflow-hidden">
         <Editor />
       </div>
     </div>

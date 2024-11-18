@@ -9,7 +9,7 @@ export function RightPanelContainer() {
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full flex flex-col">
-      <TabsList className="flex justify-start overflow-x-auto">
+      <TabsList className="flex justify-start overflow-x-auto border-b border-gray-200">
         <TabsTrigger value="tab1" className="flex-shrink-0">Editor</TabsTrigger>
         <TabsTrigger value="tab2" className="flex-shrink-0">Preview</TabsTrigger>
         <TabsTrigger value="tab3" className="flex-shrink-0">Settings</TabsTrigger>
