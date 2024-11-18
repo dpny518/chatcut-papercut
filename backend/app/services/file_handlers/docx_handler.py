@@ -4,31 +4,75 @@ import re
 import uuid
 from datetime import datetime
 from io import BytesIO
+import traceback
+import os
 
 logger = logging.getLogger(__name__)
 
 def timestamp_to_seconds(timestamp):
+    """Convert MM:SS timestamp to seconds."""
     try:
-        minutes, seconds = map(int, timestamp.split(':'))
-        return minutes * 60 + seconds
-    except ValueError as e:
+        if not timestamp:
+            return 0
+        parts = timestamp.split(':')
+        if len(parts) == 2:
+            minutes, seconds = map(int, parts)
+            return minutes * 60 + seconds
+        return 0
+    except (ValueError, AttributeError) as e:
         logger.error(f"Error converting timestamp {timestamp}: {e}")
         return 0
 
 def clean_text(text):
-    return re.sub(r'\*\*|\*', '', text).strip()
+    """Remove markdown-style formatting and clean text."""
+    # Remove ** markers
+    text = re.sub(r'\*\*|\*', '', text)
+    # Remove timestamps
+    text = re.sub(r'\d{2}:\d{2}', '', text)
+    # Clean extra whitespace
+    text = ' '.join(text.split())
+    return text.strip()
 
-async def parse_to_schema(file):
+def extract_speaker_and_text(line):
+    """Extract speaker and text from a line."""
+    speaker_match = re.match(r'\*\*([^*]+)\*\*:?\s*(.*)', line)
+    if speaker_match:
+        speaker = speaker_match.group(1).strip()
+        text = speaker_match.group(2).strip()
+        return speaker, text
+    return None, None
+
+def extract_timestamp(text):
+    """Extract timestamp from text."""
+    timestamp_match = re.search(r'(\d{2}:\d{2})', text)
+    if timestamp_match:
+        return timestamp_match.group(1)
+    return None
+
+async def parse_to_schema(file_or_content):
+    """Parse DOCX interview transcript to structured schema."""
     try:
-        logger.info(f"Starting DOCX parsing for file: {file.filename}")
-        
-        # Convert UploadFile to BytesIO
-        file_content = await file.read()
+        if isinstance(file_or_content, str):
+            # If it's a file path
+            logger.info(f"Starting DOCX parsing for file: {file_or_content}")
+            with open(file_or_content, 'rb') as f:
+                file_content = f.read()
+            filename = os.path.basename(file_or_content)
+        elif isinstance(file_or_content, bytes):
+            # If it's file content
+            logger.info("Starting DOCX parsing for file content")
+            file_content = file_or_content
+            filename = "unknown.docx"
+        else:
+            # If it's an UploadFile object
+            logger.info(f"Starting DOCX parsing for file: {file_or_content.filename}")
+            file_content = await file_or_content.read()
+            filename = file_or_content.filename
+
         logger.info(f"File content length: {len(file_content)} bytes")
         
         doc = Document(BytesIO(file_content))
-        logger.info(f"DOCX document created successfully")
-        
+        logger.info("DOCX document created successfully")
         
         segments = []
         project_id = str(uuid.uuid4())
@@ -36,60 +80,54 @@ async def parse_to_schema(file):
         uploaded_on = datetime.utcnow().isoformat() + "Z"
 
         current_segment = None
-        last_timestamp = 0
-
+        
         for para in doc.paragraphs:
-            try:
-                text = para.text.strip()
-                if not text:
-                    continue
+            text = para.text.strip()
+            logger.debug(f"Processing paragraph: {text}")
+            if not text:
+                continue
 
-                speaker_timestamp_pattern = r'\*\*([^*]+)\*\*:\s*(\d{2}:\d{2})'
-                match = re.match(speaker_timestamp_pattern, text)
+            speaker, remaining_text = extract_speaker_and_text(text)
+            timestamp = extract_timestamp(text)
 
-                if match:
-                    if current_segment:
-                        segments.append(current_segment)
+            if speaker:
+                # Save previous segment if it exists
+                if current_segment:
+                    segments.append(current_segment)
+                
+                # Start new segment
+                current_segment = {
+                    "segment_id": str(uuid.uuid4()),
+                    "start_time": timestamp_to_seconds(timestamp),
+                    "end_time": None,  # Will be set later
+                    "speaker": speaker,
+                    "text": clean_text(remaining_text),
+                    "words": []
+                }
+            elif current_segment:
+                # Append text to current segment
+                cleaned_text = clean_text(text)
+                if cleaned_text:
+                    current_segment["text"] += " " + cleaned_text
 
-                    speaker = clean_text(match.group(1))
-                    timestamp = match.group(2)
-                    start_time = timestamp_to_seconds(timestamp)
-
-                    current_segment = {
-                        "segment_id": f"s{len(segments) + 1}",
-                        "start_time": start_time,
-                        "end_time": start_time + 5,
-                        "speaker": speaker,
-                        "text": "",
-                        "words": []
-                    }
-                    last_timestamp = start_time
-                else:
-                    cleaned_text = clean_text(text)
-                    
-                    if current_segment and cleaned_text:
-                        if current_segment["text"]:
-                            current_segment["text"] += " " + cleaned_text
-                        else:
-                            current_segment["text"] = cleaned_text
-                        
-                        words = cleaned_text.split()
-                        word_duration = 5 / len(words) if words else 0
-                        
-                        for i, word in enumerate(words):
-                            current_segment["words"].append({
-                                "word": word,
-                                "start": last_timestamp + (i * word_duration),
-                                "end": last_timestamp + ((i + 1) * word_duration)
-                            })
-            except Exception as e:
-                logger.error(f"Error processing paragraph: {e}")
-
+        # Add the last segment
         if current_segment:
             segments.append(current_segment)
 
-        for i in range(len(segments) - 1):
-            segments[i]["end_time"] = segments[i + 1]["start_time"]
+        # Set end times and process words
+        for i, segment in enumerate(segments):
+            # Set end time based on next segment's start time
+            if i < len(segments) - 1:
+                segment["end_time"] = segments[i + 1]["start_time"]
+            else:
+                # For the last segment, add 60 seconds
+                segment["end_time"] = segment["start_time"] + 60
+
+            # Process words
+            segment["words"] = [
+                {"word": word}
+                for word in segment["text"].split()
+            ]
 
         total_duration = segments[-1]["end_time"] if segments else 0
 
@@ -97,7 +135,7 @@ async def parse_to_schema(file):
             "project_id": project_id,
             "media": {
                 "id": media_id,
-                "source": file.filename,
+                "source": filename,
                 "duration": total_duration,
                 "uploaded_on": uploaded_on
             },
@@ -107,9 +145,10 @@ async def parse_to_schema(file):
             "edits": []
         }
 
-        logger.info(f"Parsed {len(segments)} segments from DOCX")
+        logger.info(f"Successfully parsed {len(segments)} segments from DOCX")
         return parsed_data
 
     except Exception as e:
-        logger.error(f"Error parsing DOCX file: {e}", exc_info=True)
+        logger.error(f"Error parsing DOCX file: {str(e)}")
+        logger.error(traceback.format_exc())
         raise

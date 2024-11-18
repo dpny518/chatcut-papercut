@@ -1,12 +1,28 @@
-version: '3'
+version: '3.8'
 
 services:
   frontend:
-    # Your existing frontend service configuration here
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - backend
 
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    volumes:
-      - ./backend:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+
+volumes:
+  node_modules:

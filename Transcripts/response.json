@@ -1,1 +1,1 @@
-{"detail":"An error occurred: module 'app.services.file_handlers.docx_handler' has no attribute 'parse'"}
+{"detail":"Error processing file: 'str' object has no attribute 'filename'"}

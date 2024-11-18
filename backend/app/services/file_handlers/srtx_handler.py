@@ -11,8 +11,14 @@ def parse_time(time_str):
 
 async def parse(content):
     logger.info("Starting SRTX parsing")
-    content = content.decode('utf-8')
-    logger.info(f"First 200 characters of content: {content[:200]}")
+    
+    if isinstance(content, str):
+        # If content is a file path, read the file
+        with open(content, 'r', encoding='utf-8') as file:
+            content = file.read()
+    elif isinstance(content, bytes):
+        # If content is bytes, decode it
+        content = content.decode('utf-8')
     
     # Updated pattern to match the format in your file
     pattern = re.compile(r'(\d+)\n(\d{2}:\d{2}:\d{2},\d{3}) --> (\d{2}:\d{2}:\d{2},\d{3})\n(.+?)\n(.*?)(?=\n\n|\Z)', re.DOTALL)
