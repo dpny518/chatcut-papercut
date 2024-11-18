@@ -28,12 +28,24 @@ const Editor: React.FC = () => {
     let paragraphSegments: Segment[] = []
     let paragraphIndex = 0
 
+    const renderWord = (word: string, wordIndex: number, segmentIndex: number, fileId: string) => (
+      <span
+        key={`${fileId}-seg${segmentIndex}-word${wordIndex}`}
+        className="word-span"
+        data-file-id={fileId}
+        data-segment-index={segmentIndex}
+        data-word-index={wordIndex}
+      >
+        {word}{' '}
+      </span>
+    )
+
     const renderParagraph = (segments: Segment[], index: number) => {
       const greenHighlight = greenHighlights.find(h => h.segmentId === segments[0].segment_id)
       const redHighlight = redHighlights.find(h => h.segmentId === segments[0].segment_id)
       const highlightClass = greenHighlight ? 'bg-green-200' : (redHighlight ? 'bg-red-200' : '')
 
-      const paragraphKey = `paragraph-${fileIndex}-${index}-${segments[0].text.slice(0, 10)}`
+      const paragraphKey = `paragraph-${fileIndex}-${index}-${segments[0].segment_id || index}`
 
       return (
         <div 
@@ -49,15 +61,10 @@ const Editor: React.FC = () => {
           <div className="flex-grow">
             <div className="font-bold">{segments[0].speaker}</div>
             <div>
-              {segments.map((segment, segIndex) => {
-                const segmentKey = `${paragraphKey}-seg-${segIndex}-${segment.text.slice(0, 5)}`
-                return (
-                  <span 
-                    key={segmentKey} 
-                    data-segment-id={segment.segment_id}
-                  >
-                    {segment.text}{' '}
-                  </span>
+              {segments.map((segment, segmentIndex) => {
+                const words = segment.text.split(' ')
+                return words.map((word, wordIndex) => 
+                  renderWord(word, wordIndex, segmentIndex, file.file_info.file_id)
                 )
               })}
             </div>

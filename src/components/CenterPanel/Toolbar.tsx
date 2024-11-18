@@ -2,10 +2,11 @@
 import React from 'react'
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"  // Make sure you have this utility function
+import { HighlightType } from '@/contexts/HighlightContext'
 
 interface ToolbarProps {
-  activeMode: 'copy' | 'green' | 'red'
-  toggleMode: (mode: 'copy' | 'green' | 'red') => void
+  activeMode: 'copy' | HighlightType
+  toggleMode: (mode: 'copy' | HighlightType) => void
 }
 
 const Toolbar: React.FC<ToolbarProps> = ({ activeMode, toggleMode }) => {

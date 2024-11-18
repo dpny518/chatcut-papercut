@@ -25,6 +25,15 @@ const TabContent: React.FC<TabContentProps> = ({ activeTabId }) => {
   const [cursorPosition, setCursorPosition] = useState<number>(0)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
+  // Debug logging for copiedContent
+  useEffect(() => {
+    console.log('🔍 Copied Content in TabContent:', {
+      exists: !!copiedContent,
+      text: copiedContent?.text,
+      metadata: copiedContent?.metadata
+    });
+  }, [copiedContent]);
+
   const activeTab = tabs.find(tab => tab.id === activeTabId)
   const content = activeTab?.content || ''
 
@@ -42,23 +51,36 @@ const TabContent: React.FC<TabContentProps> = ({ activeTabId }) => {
   }
 
   const handlePaste = () => {
+    console.log('🚀 Paste Button Clicked');
+    console.log('Current Copied Content:', copiedContent);
+
     if (copiedContent) {
+      console.log('✅ Attempting to Paste');
+      
       const newContent = content.substring(0, cursorPosition) + copiedContent.text + content.substring(cursorPosition)
       
       const newMetadata: TabMetadata = {
         pastedText: copiedContent.text,
         pastePosition: cursorPosition,
-        sourceFile: copiedContent.metadata.sourceFile,
-        sourceSegment: copiedContent.metadata.sourceSegment,
-        sourceWord: copiedContent.metadata.sourceWord
+        sourceFile: copiedContent.metadata?.sourceFile || 'Unknown',
+        sourceSegment: copiedContent.metadata?.sourceSegment || 'Unknown',
+        sourceWord: copiedContent.metadata?.sourceWord || 'Unknown'
       }
+
+      console.log('New Content:', newContent);
+      console.log('New Metadata:', newMetadata);
 
       const updatedContent = {
         text: newContent,
         metadata: [...(activeTab?.metadata || []), newMetadata]
       }
+
+      console.log('Updated Content Object:', updatedContent);
+
       updateTabContent(activeTabId, updatedContent)
       setCursorPosition(cursorPosition + copiedContent.text.length)
+    } else {
+      console.error('❌ No Copied Content Available');
     }
   }
 
