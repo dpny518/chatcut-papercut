@@ -5,12 +5,16 @@ import React, { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import Editor from './CenterPanel/Editor'
 import { useEditor } from '@/contexts/EditorContext'
+import { useGreenHighlight, useRedHighlight } from '@/contexts/HighlightContext'
+import { useCopy } from '@/contexts/CopyContext'
 import { Segment, FileContent } from '../types/transcript'
 import Toolbar from './CenterPanel/Toolbar'
 
-
 export default function CenterPanel() {
-  const { content, highlights, addHighlight, removeHighlight, setCopiedContent } = useEditor()
+  const { content } = useEditor()
+  const { highlights: greenHighlights, addHighlight: addGreenHighlight, removeHighlight: removeGreenHighlight } = useGreenHighlight()
+  const { highlights: redHighlights, addHighlight: addRedHighlight, removeHighlight: removeRedHighlight } = useRedHighlight()
+  const { setCopiedContent } = useCopy()
   const [activeMode, setActiveMode] = useState<'copy' | 'green' | 'red'>('copy')
 
   const handleAction = () => {
@@ -47,13 +51,25 @@ export default function CenterPanel() {
               )
             )
             segmentsToHighlight.forEach((segment: Segment) => {
-              const existingHighlight = highlights.find(h => h.segmentId === segment.segment_id)
-              if (existingHighlight && existingHighlight.type === activeMode) {
-                removeHighlight(segment.segment_id)
-                console.log(`Removed ${activeMode} highlight from segment ${segment.segment_id}`)
+              const highlight = { segmentId: segment.segment_id, text: segment.text }
+              if (activeMode === 'green') {
+                const existingHighlight = greenHighlights.find(h => h.segmentId === segment.segment_id)
+                if (existingHighlight) {
+                  removeGreenHighlight(segment.segment_id)
+                  console.log(`Removed green highlight from segment ${segment.segment_id}`)
+                } else {
+                  addGreenHighlight(highlight)
+                  console.log(`Added green highlight to segment ${segment.segment_id}`)
+                }
               } else {
-                addHighlight(segment.segment_id, activeMode)
-                console.log(`Added ${activeMode} highlight to segment ${segment.segment_id}`)
+                const existingHighlight = redHighlights.find(h => h.segmentId === segment.segment_id)
+                if (existingHighlight) {
+                  removeRedHighlight(segment.segment_id)
+                  console.log(`Removed red highlight from segment ${segment.segment_id}`)
+                } else {
+                  addRedHighlight(highlight)
+                  console.log(`Added red highlight to segment ${segment.segment_id}`)
+                }
               }
             })
             break

@@ -67,6 +67,12 @@ const TabContent: React.FC<TabContentProps> = ({ activeTabId }) => {
     return content.split(' ').map((word, index) => {
       const wordPosition = position
       position += word.length + 1 // +1 for the space
+      
+      const metadata = activeTab?.metadata?.find(m => 
+        wordPosition >= m.pastePosition && 
+        wordPosition < m.pastePosition + m.pastedText.length
+      )
+
       return (
         <HoverCard key={`${index}-${wordPosition}-${word}`}>
           <HoverCardTrigger asChild>
@@ -76,6 +82,13 @@ const TabContent: React.FC<TabContentProps> = ({ activeTabId }) => {
             <div className="space-y-2">
               <p className="text-sm font-medium">Word: {word}</p>
               <p className="text-sm">Position: {wordPosition}</p>
+              {metadata && (
+                <>
+                  <p className="text-sm">Source File: {metadata.sourceFile}</p>
+                  <p className="text-sm">Source Segment: {metadata.sourceSegment}</p>
+                  <p className="text-sm">Source Word: {metadata.sourceWord}</p>
+                </>
+              )}
             </div>
           </HoverCardContent>
         </HoverCard>
