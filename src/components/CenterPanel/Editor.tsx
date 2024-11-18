@@ -20,25 +20,74 @@ const Editor: React.FC = () => {
     setContent(mergedContent)
   }, [selectedItems, files, setContent])
 
-  const renderSegment = (segment: Segment, index: number, fileIndex: number) => {
-    const isHighlighted = highlights.some(h => h.segmentId === segment.segment_id)
-    const highlightClass = isHighlighted 
-      ? (highlights.find(h => h.segmentId === segment.segment_id)?.type === 'red' ? 'bg-red-200' : 'bg-green-200') 
+  const renderContent = (file: FileContent, fileIndex: number) => {
+    let currentSpeaker = ''
+    let paragraphSegments: Segment[] = []
+    let paragraphIndex = 0
+
+
+  const renderParagraph = (segments: Segment[], index: number) => {
+    const highlight = highlights.find(h => h.segmentId === segments[0].segment_id)
+    const highlightClass = highlight 
+      ? (highlight.type === 'red' ? 'bg-red-200' : 'bg-green-200') 
       : ''
 
+    const paragraphKey = `paragraph-${fileIndex}-${index}-${segments[0].text.slice(0, 10)}`
+
     return (
-      <div key={`${fileIndex}-${segment.segment_id}`} className="mb-4" data-segment-id={segment.segment_id}>
-        <div className="text-gray-500 text-xs">{index + 1}</div>
-        <div className={`pl-4 ${highlightClass}`}>
-          <div className="font-bold">{segment.speaker}</div>
-          <div>{segment.text}</div>
+      <div 
+        key={paragraphKey}
+        className={`mb-4 ${highlightClass} flex`}
+      >
+        <div className="w-20 flex-shrink-0 text-right pr-4">
+          <div className="text-gray-500 text-xs">{index + 1}</div>
           <div className="text-gray-400 text-xs">
-            {formatTime(segment.start_time)} - {formatTime(segment.end_time)}
+            {formatTime(segments[0].start_time)} - {formatTime(segments[segments.length - 1].end_time)}
+          </div>
+        </div>
+        <div className="flex-grow">
+          <div className="font-bold">{segments[0].speaker}</div>
+          <div>
+            {segments.map((segment, segIndex) => {
+              const segmentKey = `${paragraphKey}-seg-${segIndex}-${segment.text.slice(0, 5)}`
+              return (
+                <span 
+                  key={segmentKey} 
+                  data-segment-id={segment.segment_id}
+                >
+                  {segment.text}{' '}
+                </span>
+              )
+            })}
           </div>
         </div>
       </div>
     )
   }
+
+  return file.processed_data.transcript.segments.map((segment: Segment, index: number) => {
+    if (segment.speaker !== currentSpeaker) {
+      if (paragraphSegments.length > 0) {
+        const paragraph = renderParagraph(paragraphSegments, paragraphIndex)
+        paragraphSegments = [segment]
+        currentSpeaker = segment.speaker
+        paragraphIndex++
+        return paragraph
+      } else {
+        currentSpeaker = segment.speaker
+        paragraphSegments.push(segment)
+        return null
+      }
+    } else {
+      paragraphSegments.push(segment)
+      if (index === file.processed_data.transcript.segments.length - 1) {
+        return renderParagraph(paragraphSegments, paragraphIndex)
+      }
+      return null
+    }
+  }).filter(Boolean)
+}
+
 
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60)
@@ -51,9 +100,7 @@ const Editor: React.FC = () => {
       {content.map((file: FileContent, fileIndex: number) => (
         <div key={`file-${fileIndex}`} className="mb-8">
           <h2 className="text-xl font-bold mb-4">{file.processed_data.media.source}</h2>
-          {file.processed_data.transcript.segments.map((segment: Segment, segmentIndex: number) => 
-            renderSegment(segment, segmentIndex, fileIndex)
-          )}
+          {renderContent(file, fileIndex)}
         </div>
       ))}
     </div>

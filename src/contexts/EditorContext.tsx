@@ -1,11 +1,16 @@
 // src/contexts/EditorContext.tsx
 'use client'
 import React, { createContext, useContext, useState, ReactNode, useCallback } from 'react'
-import { FileContent, Segment } from '../types/transcript'
+import { FileContent } from '../types/transcript'
 
 interface Highlight {
   segmentId: string
   type: 'red' | 'green'
+}
+
+interface CopiedContent {
+  text: string
+  metadata: any
 }
 
 interface EditorContextType {
@@ -14,17 +19,16 @@ interface EditorContextType {
   highlights: Highlight[];
   addHighlight: (segmentId: string, type: 'red' | 'green') => void;
   removeHighlight: (segmentId: string) => void;
-  copiedText: string;
-  setCopiedText: (text: string) => void;
+  copiedContent: CopiedContent | null;
+  setCopiedContent: (content: CopiedContent | null) => void;
 }
 
 const EditorContext = createContext<EditorContextType | undefined>(undefined)
 
-
 export const EditorProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [content, setContent] = useState<FileContent[]>([])
   const [highlights, setHighlights] = useState<Highlight[]>([])
-  const [copiedText, setCopiedText] = useState('')
+  const [copiedContent, setCopiedContent] = useState<CopiedContent | null>(null)
 
   const addHighlight = useCallback((segmentId: string, type: 'red' | 'green') => {
     setHighlights(prev => [...prev.filter(h => h.segmentId !== segmentId), { segmentId, type }])
@@ -39,20 +43,15 @@ export const EditorProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     setContent(newContent)
   }, [])
 
-  const setCopiedTextWithLog = useCallback((text: string) => {
-    console.log('Setting copied text:', text)
-    setCopiedText(text)
-  }, [])
-
   return (
     <EditorContext.Provider value={{ 
       content, 
-      setContent, 
+      setContent: setContentWithLog, 
       highlights, 
       addHighlight, 
       removeHighlight,
-      copiedText,
-      setCopiedText
+      copiedContent,
+      setCopiedContent
     }}>
       {children}
     </EditorContext.Provider>

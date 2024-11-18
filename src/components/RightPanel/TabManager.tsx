@@ -1,25 +1,28 @@
+// src/components/RightPanel/TabManager.tsx
 import React from 'react'
+import { useRightPanel } from '@/contexts/RightPanelContext'
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Button } from "@/components/ui/button"
+import { PlusCircle } from "lucide-react"
 
-interface TabManagerProps {
-  activeTab: number
-  setActiveTab: (index: number) => void
-}
-
-const TabManager: React.FC<TabManagerProps> = ({ activeTab, setActiveTab }) => {
-  const tabs = ['Tab 1', 'Tab 2', 'Tab 3']
+const TabManager: React.FC = () => {
+  const { tabs, activeTabId, addTab, setActiveTab } = useRightPanel()
 
   return (
-    <div className="flex border-b">
-      {tabs.map((tab, index) => (
-        <button
-          key={index}
-          className={`px-4 py-2 ${activeTab === index ? 'bg-white border-b-2 border-blue-500' : 'bg-gray-100'}`}
-          onClick={() => setActiveTab(index)}
-        >
-          {tab}
-        </button>
-      ))}
-    </div>
+    <Tabs value={activeTabId} onValueChange={setActiveTab} className="w-full">
+      <div className="flex items-center border-b">
+        <TabsList className="flex-grow">
+          {tabs.map((tab) => (
+            <TabsTrigger key={tab.id} value={tab.id} className="flex-shrink-0">
+              {tab.name}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        <Button variant="ghost" size="icon" onClick={addTab} className="ml-2">
+          <PlusCircle className="h-4 w-4" />
+        </Button>
+      </div>
+    </Tabs>
   )
 }
 
