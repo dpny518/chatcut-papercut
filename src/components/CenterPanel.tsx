@@ -1,5 +1,5 @@
-// src/components/CenterPanel.tsx
-"use client";
+// src/components/CenterPanel/CenterPanel.tsx
+'use client'
 
 import React, { useState } from 'react'
 import Editor from './CenterPanel/Editor'

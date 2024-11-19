@@ -4,13 +4,12 @@ import React, { useEffect, useMemo, useState, useCallback } from 'react'
 import { useFileSystem } from '@/contexts/FileSystemContext'
 import { useEditor } from '@/contexts/EditorContext'
 import { useGreenHighlight, useRedHighlight } from '@/contexts/HighlightContext'
-import { useCopy, CopiedWord, CopiedContent } from '@/contexts/CopyContext'
+import { useCopy } from '@/contexts/CopyContext'
 import { FileContent } from '../../types/transcript'
 import { Mode } from '../../types/editor'
-import { handleAction } from './EditorUtils/handleAction';
+import { handleAction } from './EditorUtils/handleAction'
 import { mergeSelectedFiles } from './EditorUtils/mergeSegments'
 import { ContentRenderer } from './EditorUtils/renderContent'
-
 
 interface EditorProps {
   activeMode: Mode
@@ -28,11 +27,11 @@ const Editor: React.FC<EditorProps> = ({ activeMode }) => {
   const { content, setContent } = useEditor()
   const { highlights: greenHighlights, addHighlight: addGreenHighlight } = useGreenHighlight()
   const { highlights: redHighlights, addHighlight: addRedHighlight } = useRedHighlight()
-  const { copiedContent, setCopiedContent } = useCopy()  // Add copiedContent here
+  const { copiedContent, setCopiedContent } = useCopy()
   const [selection, setSelection] = useState<WordData[] | null>(null)
 
   useEffect(() => {
-    mergeSelectedFiles(selectedItems, files, (newContent) => setContent(newContent));
+    mergeSelectedFiles(selectedItems, files, setContent);
   }, [selectedItems, files, setContent])
 
   const getWordHighlight = useMemo(() => {
@@ -87,21 +86,8 @@ const Editor: React.FC<EditorProps> = ({ activeMode }) => {
 
     if (selectedWords.length > 0) {
       setSelection(selectedWords);
-      
-      const copiedContent: CopiedContent = {
-        text: selectedWords.map(w => w.word).join(' '),
-        words: selectedWords.map(w => ({
-          sourceFile: w.fileIndex.toString(),
-          sourceSegmentIndex: w.segmentIndex,
-          sourceWordIndex: w.wordIndex,
-          word: w.word
-        }))
-      };
-      
-      setCopiedContent(copiedContent);
-      console.log('Copied content:', copiedContent);
     }
-  }, [getSelectedWords, setCopiedContent]);
+  }, [getSelectedWords]);
 
   const onMouseUp = useCallback((event: React.MouseEvent) => {
     handleTextSelection();
@@ -109,7 +95,7 @@ const Editor: React.FC<EditorProps> = ({ activeMode }) => {
       handleAction(
         event,
         activeMode,
-        setCopiedContent, // Directly pass setCopiedContent
+        setCopiedContent,
         addGreenHighlight,
         addRedHighlight,
         setContent,
@@ -134,7 +120,7 @@ const Editor: React.FC<EditorProps> = ({ activeMode }) => {
           />
         </div>
       ))}
-     {copiedContent && (
+      {copiedContent && (
         <div className="fixed bottom-0 left-0 right-0 bg-white p-4 border-t border-gray-200">
           <p>Copied: {copiedContent.words.length} words</p>
           <p>{copiedContent.text}</p>

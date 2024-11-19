@@ -15,11 +15,10 @@ export interface Segment {
   words: Word[];
 }
 
-  
   export interface Transcript {
     segments: Segment[];
   }
-  
+
   export interface ProcessedData {
     project_id: string;
     media: {
@@ -30,7 +29,7 @@ export interface Segment {
     };
     transcript: Transcript;
   }
-  
+
   export interface FileContent {
     file_info: {
       file_id: string;

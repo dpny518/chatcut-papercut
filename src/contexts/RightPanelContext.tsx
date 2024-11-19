@@ -46,15 +46,15 @@ export const RightPanelProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     setActiveTabId(tabId)
   }, [])
 
-  const updateTabContent = useCallback((tabId: string, newContent: { text: string, metadata: TabMetadata[] }) => {
-    setTabs(prevTabs => {
-      const updatedTabs = prevTabs.map(tab => 
-        tab.id === tabId ? { ...tab, content: newContent.text, metadata: newContent.metadata } : tab
-      );
-      console.log('Updated tabs:', updatedTabs);
-      return updatedTabs;
-    });
-  }, []);
+const updateTabContent = useCallback((tabId: string, newContent: { text: string, metadata: TabMetadata[] }) => {
+  setTabs(prevTabs => {
+    const updatedTabs = prevTabs.map(tab => 
+      tab.id === tabId ? { ...tab, content: newContent.text, metadata: newContent.metadata } : tab
+    );
+    console.log('Updated tabs:', updatedTabs);
+    return updatedTabs;
+  });
+}, []);
 
   return (
     <RightPanelContext.Provider value={{ tabs, activeTabId, addTab, renameTab, setActiveTab, updateTabContent }}>
