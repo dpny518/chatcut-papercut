@@ -79,19 +79,23 @@ const Editor: React.FC<EditorProps> = ({ activeMode }) => {
 
   const handleTextSelection = useCallback(() => {
     const selection = window.getSelection();
-    if (!selection || !selection.rangeCount) return;
+    if (!selection || !selection.rangeCount) return null;
 
     const range = selection.getRangeAt(0);
     const selectedWords = getSelectedWords(range);
 
     if (selectedWords.length > 0) {
-      setSelection(selectedWords);
+      return selectedWords;
     }
+    return null;
   }, [getSelectedWords]);
 
   const onMouseUp = useCallback((event: React.MouseEvent) => {
-    handleTextSelection();
-    if (selection) {
+    const selectedWords = handleTextSelection();
+    if (selectedWords) {
+      setSelection(selectedWords);
+      
+      // Immediately handle the action based on the active mode
       handleAction(
         event,
         activeMode,
@@ -99,10 +103,10 @@ const Editor: React.FC<EditorProps> = ({ activeMode }) => {
         addGreenHighlight,
         addRedHighlight,
         setContent,
-        selection
+        selectedWords
       );
     }
-  }, [activeMode, setCopiedContent, addGreenHighlight, addRedHighlight, setContent, selection, handleTextSelection]);
+  }, [activeMode, setCopiedContent, addGreenHighlight, addRedHighlight, setContent, handleTextSelection]);
 
   return (
     <div 

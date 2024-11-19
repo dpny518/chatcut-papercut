@@ -69,7 +69,7 @@ const TabContent: React.FC<TabContentProps> = ({ activeTabId }) => {
       console.log('Cleared copied content after paste')
     } else {
       console.error('❌ No Copied Content Available or No Active Tab')
-    }
+    } 
   }
   
   const renderHoverCards = () => {
