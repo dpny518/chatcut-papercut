@@ -1,22 +1,15 @@
 // src/components/RightPanel/TabContent.tsx
+
 import React, { useState, useEffect, useRef } from 'react'
 import { useRightPanel } from '@/contexts/RightPanelContext'
 import { useCopy } from '@/contexts/CopyContext'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
-import { ClipboardPaste } from 'lucide-react';
+import { ClipboardPaste } from 'lucide-react'
 
 interface TabContentProps {
   activeTabId: string
-}
-
-interface TabMetadata {
-  pastedText: string
-  pastePosition: number
-  sourceFile: string
-  sourceSegment: string
-  sourceWord: string
 }
 
 const TabContent: React.FC<TabContentProps> = ({ activeTabId }) => {
@@ -24,15 +17,6 @@ const TabContent: React.FC<TabContentProps> = ({ activeTabId }) => {
   const { copiedContent } = useCopy()
   const [cursorPosition, setCursorPosition] = useState<number>(0)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-
-  // Debug logging for copiedContent
-  useEffect(() => {
-    console.log('🔍 Copied Content in TabContent:', {
-      exists: !!copiedContent,
-      text: copiedContent?.text,
-      metadata: copiedContent?.metadata
-    });
-  }, [copiedContent]);
 
   const activeTab = tabs.find(tab => tab.id === activeTabId)
   const content = activeTab?.content || ''
@@ -42,7 +26,9 @@ const TabContent: React.FC<TabContentProps> = ({ activeTabId }) => {
   }, [activeTabId, content.length])
 
   const handleContentChange = (newContent: string) => {
-    updateTabContent(activeTabId, { text: newContent, metadata: activeTab?.metadata || [] })
+    if (activeTab) {
+      updateTabContent(activeTabId, { text: newContent, metadata: activeTab.metadata })
+    }
   }
 
   const handleCursorMove = (e: React.MouseEvent<HTMLTextAreaElement> | React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -51,36 +37,36 @@ const TabContent: React.FC<TabContentProps> = ({ activeTabId }) => {
   }
 
   const handlePaste = () => {
-    console.log('🚀 Paste Button Clicked');
-    console.log('Current Copied Content:', copiedContent);
+    console.log('🚀 Paste Button Clicked')
+    console.log('Current Copied Content:', copiedContent)
 
-    if (copiedContent) {
-      console.log('✅ Attempting to Paste');
+    if (copiedContent && activeTab) {
+      console.log('✅ Attempting to Paste')
       
       const newContent = content.substring(0, cursorPosition) + copiedContent.text + content.substring(cursorPosition)
       
-      const newMetadata: TabMetadata = {
+      const newMetadata = {
         pastedText: copiedContent.text,
         pastePosition: cursorPosition,
-        sourceFile: copiedContent.metadata?.sourceFile || 'Unknown',
-        sourceSegment: copiedContent.metadata?.sourceSegment || 'Unknown',
-        sourceWord: copiedContent.metadata?.sourceWord || 'Unknown'
+        sourceFile: copiedContent.metadata.sourceFile,
+        sourceSegment: copiedContent.metadata.startSegment,
+        sourceWord: copiedContent.metadata.startWord.toString()
       }
 
-      console.log('New Content:', newContent);
-      console.log('New Metadata:', newMetadata);
+      console.log('New Content:', newContent)
+      console.log('New Metadata:', newMetadata)
 
       const updatedContent = {
         text: newContent,
-        metadata: [...(activeTab?.metadata || []), newMetadata]
+        metadata: [...activeTab.metadata, newMetadata]
       }
 
-      console.log('Updated Content Object:', updatedContent);
+      console.log('Updated Content Object:', updatedContent)
 
       updateTabContent(activeTabId, updatedContent)
       setCursorPosition(cursorPosition + copiedContent.text.length)
     } else {
-      console.error('❌ No Copied Content Available');
+      console.error('❌ No Copied Content Available or No Active Tab')
     }
   }
 
@@ -90,7 +76,7 @@ const TabContent: React.FC<TabContentProps> = ({ activeTabId }) => {
       const wordPosition = position
       position += word.length + 1 // +1 for the space
       
-      const metadata = activeTab?.metadata?.find(m => 
+      const metadata = activeTab?.metadata.find(m => 
         wordPosition >= m.pastePosition && 
         wordPosition < m.pastePosition + m.pastedText.length
       )

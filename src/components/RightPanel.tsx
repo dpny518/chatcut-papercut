@@ -6,6 +6,7 @@ import { useRightPanel } from '@/contexts/RightPanelContext'
 import { Tabs, TabsContent } from "@/components/ui/tabs"
 import TabManager from './RightPanel/TabManager'
 import TabContent from './RightPanel/TabContent'
+import { Tab } from '@/types/tabTypes'
 
 export const RightPanel: React.FC = () => {
   const { tabs, activeTabId } = useRightPanel()

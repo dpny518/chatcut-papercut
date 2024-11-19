@@ -1,11 +1,11 @@
 // src/components/CenterPanel/Editor.tsx
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useFileSystem } from '@/contexts/FileSystemContext'
 import { useEditor } from '@/contexts/EditorContext'
 import { useGreenHighlight, useRedHighlight } from '@/contexts/HighlightContext'
-import { Segment, FileContent } from '../../types/transcript'
+import { Segment, FileContent, Word } from '../../types/transcript'
 
 const Editor: React.FC = () => {
   const { selectedItems, files } = useFileSystem()
@@ -23,34 +23,77 @@ const Editor: React.FC = () => {
     setContent(mergedContent)
   }, [selectedItems, files, setContent])
 
+  useEffect(() => {
+    console.log('Editor component updated');
+    console.log('Green highlights:', greenHighlights);
+    console.log('Red highlights:', redHighlights);
+  }, [greenHighlights, redHighlights]);
+
+  const getWordHighlight = useMemo(() => (fileId: string, segmentId: string, wordIndex: string) => {
+    // Check if word is part of any green highlight
+    const greenHighlight = greenHighlights.find(h => 
+      h.fileId === fileId &&
+      h.segmentId === segmentId &&
+      parseInt(wordIndex) >= h.startWordIndex &&
+      parseInt(wordIndex) <= h.endWordIndex
+    )
+  
+    // Check if word is part of any red highlight
+    const redHighlight = redHighlights.find(h => 
+      h.fileId === fileId &&
+      h.segmentId === segmentId &&
+      parseInt(wordIndex) >= h.startWordIndex &&
+      parseInt(wordIndex) <= h.endWordIndex
+    )
+  
+    const highlightClass = greenHighlight ? 'bg-green-200' : (redHighlight ? 'bg-red-200' : '')
+    
+    if (highlightClass) {
+      console.log(`Highlight applied: ${highlightClass} for fileId: ${fileId}, segmentId: ${segmentId}, wordIndex: ${wordIndex}`);
+    }
+  
+    return highlightClass
+  }, [greenHighlights, redHighlights])
+
   const renderContent = (file: FileContent, fileIndex: number) => {
     let currentSpeaker = ''
     let paragraphSegments: Segment[] = []
     let paragraphIndex = 0
 
-    const renderWord = (word: string, wordIndex: number, segmentIndex: number, fileId: string) => (
-      <span
-        key={`${fileId}-seg${segmentIndex}-word${wordIndex}`}
-        className="word-span"
-        data-file-id={fileId}
-        data-segment-index={segmentIndex}
-        data-word-index={wordIndex}
-      >
-        {word}{' '}
-      </span>
-    )
+    const renderSegment = (segment: Segment, segmentIndex: number, fileId: string) => {
+      // Split the text into words, or use an empty array if text is undefined
+      const words = segment.text?.split(' ') || [];
+    
+      return words.map((word, wordIndex) => {
+        const highlightClass = getWordHighlight(
+          fileId,
+          segment.segment_id,
+          wordIndex.toString()
+        )
+    
+        //console.log(`Rendering word: "${word}", fileId: ${fileId}, segmentId: ${segment.segment_id}, wordIndex: ${wordIndex}, highlightClass: ${highlightClass}`);
+    
+        return (
+          <span
+            key={`${fileId}-seg${segment.segment_id}-word${wordIndex}`}
+            className={`word-span ${highlightClass}`}
+            data-file-id={fileId}
+            data-segment-id={segment.segment_id}
+            data-word-index={wordIndex.toString()}
+          >
+            {word}{' '}
+          </span>
+        )
+      })
+    }
 
     const renderParagraph = (segments: Segment[], index: number) => {
-      const greenHighlight = greenHighlights.find(h => h.segmentId === segments[0].segment_id)
-      const redHighlight = redHighlights.find(h => h.segmentId === segments[0].segment_id)
-      const highlightClass = greenHighlight ? 'bg-green-200' : (redHighlight ? 'bg-red-200' : '')
-
-      const paragraphKey = `paragraph-${fileIndex}-${index}-${segments[0].segment_id || index}`
+      const paragraphKey = `paragraph-${fileIndex}-${index}-${segments[0].segment_id}`
 
       return (
         <div 
           key={paragraphKey}
-          className={`mb-4 ${highlightClass} flex`}
+          className="mb-4 flex"
         >
           <div className="w-20 flex-shrink-0 text-right pr-4">
             <div className="text-gray-500 text-xs">{index + 1}</div>
@@ -61,12 +104,7 @@ const Editor: React.FC = () => {
           <div className="flex-grow">
             <div className="font-bold">{segments[0].speaker}</div>
             <div>
-              {segments.map((segment, segmentIndex) => {
-                const words = segment.text.split(' ')
-                return words.map((word, wordIndex) => 
-                  renderWord(word, wordIndex, segmentIndex, file.file_info.file_id)
-                )
-              })}
+              {segments.map((segment, idx) => renderSegment(segment, idx, file.file_info.file_id))}
             </div>
           </div>
         </div>
