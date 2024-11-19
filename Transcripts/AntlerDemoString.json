@@ -1,0 +1,1038 @@
+{
+  "transcription": [
+    {
+      "segment": {
+        "end": 8.721, 
+        "speaker": "SPEAKER_01", 
+        "start": 1.313, 
+        "text": " When YouTubers record themselves like this, they have to go through hours and hours of video and watch their own face again and again and listen to their own voice."
+      }, 
+      "words": [
+        {
+          "end": 1.453, 
+          "score": 0.826, 
+          "speaker": "SPEAKER_01", 
+          "start": 1.313, 
+          "word": "When"
+        }, 
+        {
+          "end": 2.074, 
+          "score": 0.747, 
+          "speaker": "SPEAKER_01", 
+          "start": 1.513, 
+          "word": "YouTubers"
+        }, 
+        {
+          "end": 2.454, 
+          "score": 0.878, 
+          "speaker": "SPEAKER_01", 
+          "start": 2.114, 
+          "word": "record"
+        }, 
+        {
+          "end": 2.895, 
+          "score": 0.825, 
+          "speaker": "SPEAKER_01", 
+          "start": 2.474, 
+          "word": "themselves"
+        }, 
+        {
+          "end": 3.115, 
+          "score": 0.848, 
+          "speaker": "SPEAKER_01", 
+          "start": 2.955, 
+          "word": "like"
+        }, 
+        {
+          "end": 3.395, 
+          "score": 0.866, 
+          "speaker": "SPEAKER_01", 
+          "start": 3.175, 
+          "word": "this,"
+        }, 
+        {
+          "end": 3.896, 
+          "score": 0.582, 
+          "speaker": "SPEAKER_01", 
+          "start": 3.776, 
+          "word": "they"
+        }, 
+        {
+          "end": 4.016, 
+          "score": 0.877, 
+          "speaker": "SPEAKER_01", 
+          "start": 3.916, 
+          "word": "have"
+        }, 
+        {
+          "end": 4.076, 
+          "score": 0.996, 
+          "speaker": "SPEAKER_01", 
+          "start": 4.036, 
+          "word": "to"
+        }, 
+        {
+          "end": 4.236, 
+          "score": 0.667, 
+          "speaker": "SPEAKER_01", 
+          "start": 4.116, 
+          "word": "go"
+        }, 
+        {
+          "end": 4.477, 
+          "score": 0.682, 
+          "speaker": "SPEAKER_01", 
+          "start": 4.256, 
+          "word": "through"
+        }, 
+        {
+          "end": 4.877, 
+          "score": 0.815, 
+          "speaker": "SPEAKER_01", 
+          "start": 4.537, 
+          "word": "hours"
+        }, 
+        {
+          "end": 4.997, 
+          "score": 0.833, 
+          "speaker": "SPEAKER_01", 
+          "start": 4.917, 
+          "word": "and"
+        }, 
+        {
+          "end": 5.297, 
+          "score": 0.806, 
+          "speaker": "SPEAKER_01", 
+          "start": 5.037, 
+          "word": "hours"
+        }, 
+        {
+          "end": 5.418, 
+          "score": 0.741, 
+          "speaker": "SPEAKER_01", 
+          "start": 5.357, 
+          "word": "of"
+        }, 
+        {
+          "end": 5.718, 
+          "score": 0.777, 
+          "speaker": "SPEAKER_01", 
+          "start": 5.438, 
+          "word": "video"
+        }, 
+        {
+          "end": 5.878, 
+          "score": 0.733, 
+          "speaker": "SPEAKER_01", 
+          "start": 5.778, 
+          "word": "and"
+        }, 
+        {
+          "end": 6.158, 
+          "score": 0.676, 
+          "speaker": "SPEAKER_01", 
+          "start": 5.938, 
+          "word": "watch"
+        }, 
+        {
+          "end": 6.319, 
+          "score": 0.473, 
+          "speaker": "SPEAKER_01", 
+          "start": 6.178, 
+          "word": "their"
+        }, 
+        {
+          "end": 6.479, 
+          "score": 0.725, 
+          "speaker": "SPEAKER_01", 
+          "start": 6.359, 
+          "word": "own"
+        }, 
+        {
+          "end": 6.779, 
+          "score": 0.905, 
+          "speaker": "SPEAKER_01", 
+          "start": 6.519, 
+          "word": "face"
+        }, 
+        {
+          "end": 7.099, 
+          "score": 0.759, 
+          "speaker": "SPEAKER_01", 
+          "start": 6.879, 
+          "word": "again"
+        }, 
+        {
+          "end": 7.24, 
+          "score": 0.833, 
+          "speaker": "SPEAKER_01", 
+          "start": 7.159, 
+          "word": "and"
+        }, 
+        {
+          "end": 7.5, 
+          "score": 0.704, 
+          "speaker": "SPEAKER_01", 
+          "start": 7.26, 
+          "word": "again"
+        }, 
+        {
+          "end": 7.6, 
+          "score": 0.779, 
+          "speaker": "SPEAKER_01", 
+          "start": 7.54, 
+          "word": "and"
+        }, 
+        {
+          "end": 7.88, 
+          "score": 0.845, 
+          "speaker": "SPEAKER_01", 
+          "start": 7.66, 
+          "word": "listen"
+        }, 
+        {
+          "end": 7.98, 
+          "score": 0.738, 
+          "speaker": "SPEAKER_01", 
+          "start": 7.9, 
+          "word": "to"
+        }, 
+        {
+          "end": 8.201, 
+          "score": 0.566, 
+          "speaker": "SPEAKER_01", 
+          "start": 8.0, 
+          "word": "their"
+        }, 
+        {
+          "end": 8.401, 
+          "score": 0.777, 
+          "speaker": "SPEAKER_01", 
+          "start": 8.281, 
+          "word": "own"
+        }, 
+        {
+          "end": 8.721, 
+          "score": 0.849, 
+          "speaker": "SPEAKER_01", 
+          "start": 8.441, 
+          "word": "voice."
+        }
+      ]
+    }, 
+    {
+      "segment": {
+        "end": 15.168, 
+        "speaker": "SPEAKER_01", 
+        "start": 9.002, 
+        "text": "But now they can just look at what they said and put together what they want to be in the video and be done with."
+      }, 
+      "words": [
+        {
+          "end": 9.122, 
+          "score": 0.876, 
+          "speaker": "SPEAKER_01", 
+          "start": 9.002, 
+          "word": "But"
+        }, 
+        {
+          "end": 9.342, 
+          "score": 0.646, 
+          "speaker": "SPEAKER_01", 
+          "start": 9.162, 
+          "word": "now"
+        }, 
+        {
+          "end": 9.482, 
+          "score": 0.875, 
+          "speaker": "SPEAKER_01", 
+          "start": 9.382, 
+          "word": "they"
+        }, 
+        {
+          "end": 9.602, 
+          "score": 0.982, 
+          "speaker": "SPEAKER_01", 
+          "start": 9.502, 
+          "word": "can"
+        }, 
+        {
+          "end": 9.782, 
+          "score": 0.75, 
+          "speaker": "SPEAKER_01", 
+          "start": 9.642, 
+          "word": "just"
+        }, 
+        {
+          "end": 9.983, 
+          "score": 0.999, 
+          "speaker": "SPEAKER_01", 
+          "start": 9.842, 
+          "word": "look"
+        }, 
+        {
+          "end": 10.103, 
+          "score": 0.308, 
+          "speaker": "SPEAKER_01", 
+          "start": 10.023, 
+          "word": "at"
+        }, 
+        {
+          "end": 10.223, 
+          "score": 0.875, 
+          "speaker": "SPEAKER_01", 
+          "start": 10.123, 
+          "word": "what"
+        }, 
+        {
+          "end": 10.363, 
+          "score": 0.952, 
+          "speaker": "SPEAKER_01", 
+          "start": 10.243, 
+          "word": "they"
+        }, 
+        {
+          "end": 10.643, 
+          "score": 0.676, 
+          "speaker": "SPEAKER_01", 
+          "start": 10.403, 
+          "word": "said"
+        }, 
+        {
+          "end": 11.564, 
+          "score": 0.924, 
+          "speaker": "SPEAKER_01", 
+          "start": 10.743, 
+          "word": "and"
+        }, 
+        {
+          "end": 12.045, 
+          "score": 0.84, 
+          "speaker": "SPEAKER_01", 
+          "start": 11.925, 
+          "word": "put"
+        }, 
+        {
+          "end": 12.465, 
+          "score": 0.857, 
+          "speaker": "SPEAKER_01", 
+          "start": 12.085, 
+          "word": "together"
+        }, 
+        {
+          "end": 12.786, 
+          "score": 0.833, 
+          "speaker": "SPEAKER_01", 
+          "start": 12.666, 
+          "word": "what"
+        }, 
+        {
+          "end": 12.946, 
+          "score": 0.795, 
+          "speaker": "SPEAKER_01", 
+          "start": 12.826, 
+          "word": "they"
+        }, 
+        {
+          "end": 13.246, 
+          "score": 0.76, 
+          "speaker": "SPEAKER_01", 
+          "start": 12.986, 
+          "word": "want"
+        }, 
+        {
+          "end": 13.647, 
+          "score": 0.698, 
+          "speaker": "SPEAKER_01", 
+          "start": 13.527, 
+          "word": "to"
+        }, 
+        {
+          "end": 13.787, 
+          "score": 0.861, 
+          "speaker": "SPEAKER_01", 
+          "start": 13.687, 
+          "word": "be"
+        }, 
+        {
+          "end": 13.847, 
+          "score": 0.952, 
+          "speaker": "SPEAKER_01", 
+          "start": 13.807, 
+          "word": "in"
+        }, 
+        {
+          "end": 13.967, 
+          "score": 0.734, 
+          "speaker": "SPEAKER_01", 
+          "start": 13.887, 
+          "word": "the"
+        }, 
+        {
+          "end": 14.287, 
+          "score": 0.66, 
+          "speaker": "SPEAKER_01", 
+          "start": 13.987, 
+          "word": "video"
+        }, 
+        {
+          "end": 14.628, 
+          "score": 0.858, 
+          "speaker": "SPEAKER_01", 
+          "start": 14.548, 
+          "word": "and"
+        }, 
+        {
+          "end": 14.748, 
+          "score": 0.992, 
+          "speaker": "SPEAKER_01", 
+          "start": 14.668, 
+          "word": "be"
+        }, 
+        {
+          "end": 14.988, 
+          "score": 0.819, 
+          "speaker": "SPEAKER_01", 
+          "start": 14.788, 
+          "word": "done"
+        }, 
+        {
+          "end": 15.168, 
+          "score": 0.776, 
+          "speaker": "SPEAKER_01", 
+          "start": 15.028, 
+          "word": "with."
+        }
+      ]
+    }, 
+    {
+      "segment": {
+        "end": 18.852, 
+        "speaker": "SPEAKER_02", 
+        "start": 16.79, 
+        "text": "We're shooting a test video."
+      }, 
+      "words": [
+        {
+          "end": 17.211, 
+          "score": 0.602, 
+          "speaker": "unknown", 
+          "start": 16.79, 
+          "word": "We're"
+        }, 
+        {
+          "end": 18.172, 
+          "score": 0.443, 
+          "speaker": "SPEAKER_02", 
+          "start": 17.911, 
+          "word": "shooting"
+        }, 
+        {
+          "end": 18.292, 
+          "score": 0.68, 
+          "speaker": "SPEAKER_02", 
+          "start": 18.232, 
+          "word": "a"
+        }, 
+        {
+          "end": 18.552, 
+          "score": 0.895, 
+          "speaker": "SPEAKER_02", 
+          "start": 18.312, 
+          "word": "test"
+        }, 
+        {
+          "end": 18.852, 
+          "score": 0.778, 
+          "speaker": "SPEAKER_02", 
+          "start": 18.612, 
+          "word": "video."
+        }
+      ]
+    }, 
+    {
+      "segment": {
+        "end": 19.653, 
+        "speaker": "SPEAKER_02", 
+        "start": 18.872, 
+        "text": "It looks fun, right?"
+      }, 
+      "words": [
+        {
+          "end": 18.913, 
+          "score": 0.029, 
+          "speaker": "SPEAKER_02", 
+          "start": 18.872, 
+          "word": "It"
+        }, 
+        {
+          "end": 19.093, 
+          "score": 0.926, 
+          "speaker": "SPEAKER_02", 
+          "start": 18.933, 
+          "word": "looks"
+        }, 
+        {
+          "end": 19.313, 
+          "score": 0.755, 
+          "speaker": "SPEAKER_02", 
+          "start": 19.153, 
+          "word": "fun,"
+        }, 
+        {
+          "end": 19.653, 
+          "score": 0.481, 
+          "speaker": "SPEAKER_02", 
+          "start": 19.413, 
+          "word": "right?"
+        }
+      ]
+    }, 
+    {
+      "segment": {
+        "end": 21.696, 
+        "speaker": "SPEAKER_02", 
+        "start": 20.214, 
+        "text": "Until you get to the editing part."
+      }, 
+      "words": [
+        {
+          "end": 20.494, 
+          "score": 0.856, 
+          "speaker": "SPEAKER_02", 
+          "start": 20.214, 
+          "word": "Until"
+        }, 
+        {
+          "end": 20.654, 
+          "score": 0.911, 
+          "speaker": "SPEAKER_02", 
+          "start": 20.514, 
+          "word": "you"
+        }, 
+        {
+          "end": 20.795, 
+          "score": 0.794, 
+          "speaker": "SPEAKER_02", 
+          "start": 20.674, 
+          "word": "get"
+        }, 
+        {
+          "end": 20.915, 
+          "score": 0.96, 
+          "speaker": "SPEAKER_02", 
+          "start": 20.835, 
+          "word": "to"
+        }, 
+        {
+          "end": 21.015, 
+          "score": 0.383, 
+          "speaker": "SPEAKER_02", 
+          "start": 20.955, 
+          "word": "the"
+        }, 
+        {
+          "end": 21.335, 
+          "score": 0.413, 
+          "speaker": "SPEAKER_02", 
+          "start": 21.055, 
+          "word": "editing"
+        }, 
+        {
+          "end": 21.696, 
+          "score": 0.584, 
+          "speaker": "SPEAKER_02", 
+          "start": 21.435, 
+          "word": "part."
+        }
+      ]
+    }, 
+    {
+      "segment": {
+        "end": 26.66, 
+        "speaker": "SPEAKER_00", 
+        "start": 23.196, 
+        "text": " I had a YouTuber dream once, but the software was just too hard to use."
+      }, 
+      "words": [
+        {
+          "end": 23.236, 
+          "score": 0.816, 
+          "speaker": "SPEAKER_00", 
+          "start": 23.196, 
+          "word": "I"
+        }, 
+        {
+          "end": 23.416, 
+          "score": 0.868, 
+          "speaker": "SPEAKER_00", 
+          "start": 23.276, 
+          "word": "had"
+        }, 
+        {
+          "end": 23.557, 
+          "score": 0.872, 
+          "speaker": "SPEAKER_00", 
+          "start": 23.476, 
+          "word": "a"
+        }, 
+        {
+          "end": 24.117, 
+          "score": 0.594, 
+          "speaker": "SPEAKER_00", 
+          "start": 23.617, 
+          "word": "YouTuber"
+        }, 
+        {
+          "end": 24.357, 
+          "score": 0.752, 
+          "speaker": "SPEAKER_00", 
+          "start": 24.157, 
+          "word": "dream"
+        }, 
+        {
+          "end": 24.618, 
+          "score": 0.978, 
+          "speaker": "SPEAKER_00", 
+          "start": 24.458, 
+          "word": "once,"
+        }, 
+        {
+          "end": 25.218, 
+          "score": 0.831, 
+          "speaker": "SPEAKER_00", 
+          "start": 25.118, 
+          "word": "but"
+        }, 
+        {
+          "end": 25.319, 
+          "score": 0.989, 
+          "speaker": "SPEAKER_00", 
+          "start": 25.238, 
+          "word": "the"
+        }, 
+        {
+          "end": 25.659, 
+          "score": 0.457, 
+          "speaker": "SPEAKER_00", 
+          "start": 25.359, 
+          "word": "software"
+        }, 
+        {
+          "end": 25.759, 
+          "score": 0.836, 
+          "speaker": "SPEAKER_00", 
+          "start": 25.679, 
+          "word": "was"
+        }, 
+        {
+          "end": 25.899, 
+          "score": 0.91, 
+          "speaker": "SPEAKER_00", 
+          "start": 25.779, 
+          "word": "just"
+        }, 
+        {
+          "end": 26.059, 
+          "score": 0.97, 
+          "speaker": "SPEAKER_00", 
+          "start": 25.939, 
+          "word": "too"
+        }, 
+        {
+          "end": 26.24, 
+          "score": 0.749, 
+          "speaker": "SPEAKER_00", 
+          "start": 26.099, 
+          "word": "hard"
+        }, 
+        {
+          "end": 26.34, 
+          "score": 0.992, 
+          "speaker": "SPEAKER_00", 
+          "start": 26.28, 
+          "word": "to"
+        }, 
+        {
+          "end": 26.66, 
+          "score": 0.755, 
+          "speaker": "SPEAKER_00", 
+          "start": 26.5, 
+          "word": "use."
+        }
+      ]
+    }, 
+    {
+      "segment": {
+        "end": 29.063, 
+        "speaker": "SPEAKER_00", 
+        "start": 26.86, 
+        "text": "I didn't even know how to edit or import."
+      }, 
+      "words": [
+        {
+          "end": 26.88, 
+          "score": 0.999, 
+          "speaker": "SPEAKER_00", 
+          "start": 26.86, 
+          "word": "I"
+        }, 
+        {
+          "end": 27.02, 
+          "score": 0.352, 
+          "speaker": "SPEAKER_00", 
+          "start": 26.9, 
+          "word": "didn't"
+        }, 
+        {
+          "end": 27.221, 
+          "score": 0.82, 
+          "speaker": "SPEAKER_00", 
+          "start": 27.06, 
+          "word": "even"
+        }, 
+        {
+          "end": 27.461, 
+          "score": 0.758, 
+          "speaker": "SPEAKER_00", 
+          "start": 27.261, 
+          "word": "know"
+        }, 
+        {
+          "end": 27.621, 
+          "score": 0.824, 
+          "speaker": "SPEAKER_00", 
+          "start": 27.521, 
+          "word": "how"
+        }, 
+        {
+          "end": 27.681, 
+          "score": 0.923, 
+          "speaker": "SPEAKER_00", 
+          "start": 27.641, 
+          "word": "to"
+        }, 
+        {
+          "end": 28.062, 
+          "score": 0.847, 
+          "speaker": "SPEAKER_00", 
+          "start": 27.761, 
+          "word": "edit"
+        }, 
+        {
+          "end": 28.242, 
+          "score": 0.782, 
+          "speaker": "SPEAKER_00", 
+          "start": 28.142, 
+          "word": "or"
+        }, 
+        {
+          "end": 29.063, 
+          "score": 0.723, 
+          "speaker": "SPEAKER_00", 
+          "start": 28.342, 
+          "word": "import."
+        }
+      ]
+    }, 
+    {
+      "segment": {
+        "end": 31.546, 
+        "speaker": "SPEAKER_00", 
+        "start": 29.724, 
+        "text": "It was all audio files and video files."
+      }, 
+      "words": [
+        {
+          "end": 29.784, 
+          "score": 0.644, 
+          "speaker": "SPEAKER_00", 
+          "start": 29.724, 
+          "word": "It"
+        }, 
+        {
+          "end": 29.884, 
+          "score": 0.851, 
+          "speaker": "SPEAKER_00", 
+          "start": 29.804, 
+          "word": "was"
+        }, 
+        {
+          "end": 30.024, 
+          "score": 0.996, 
+          "speaker": "SPEAKER_00", 
+          "start": 29.924, 
+          "word": "all"
+        }, 
+        {
+          "end": 30.344, 
+          "score": 0.89, 
+          "speaker": "SPEAKER_00", 
+          "start": 30.084, 
+          "word": "audio"
+        }, 
+        {
+          "end": 30.665, 
+          "score": 0.728, 
+          "speaker": "SPEAKER_00", 
+          "start": 30.384, 
+          "word": "files"
+        }, 
+        {
+          "end": 30.825, 
+          "score": 0.355, 
+          "speaker": "SPEAKER_00", 
+          "start": 30.745, 
+          "word": "and"
+        }, 
+        {
+          "end": 31.105, 
+          "score": 0.763, 
+          "speaker": "SPEAKER_00", 
+          "start": 30.845, 
+          "word": "video"
+        }, 
+        {
+          "end": 31.546, 
+          "score": 0.778, 
+          "speaker": "SPEAKER_00", 
+          "start": 31.145, 
+          "word": "files."
+        }
+      ]
+    }, 
+    {
+      "segment": {
+        "end": 33.027, 
+        "speaker": "SPEAKER_00", 
+        "start": 31.606, 
+        "text": "It was just too complicated for me."
+      }, 
+      "words": [
+        {
+          "end": 31.646, 
+          "score": 0.556, 
+          "speaker": "SPEAKER_00", 
+          "start": 31.606, 
+          "word": "It"
+        }, 
+        {
+          "end": 31.726, 
+          "score": 0.771, 
+          "speaker": "SPEAKER_00", 
+          "start": 31.666, 
+          "word": "was"
+        }, 
+        {
+          "end": 31.906, 
+          "score": 0.97, 
+          "speaker": "SPEAKER_00", 
+          "start": 31.766, 
+          "word": "just"
+        }, 
+        {
+          "end": 32.326, 
+          "score": 0.883, 
+          "speaker": "SPEAKER_00", 
+          "start": 32.166, 
+          "word": "too"
+        }, 
+        {
+          "end": 32.787, 
+          "score": 0.866, 
+          "speaker": "SPEAKER_00", 
+          "start": 32.387, 
+          "word": "complicated"
+        }, 
+        {
+          "end": 32.887, 
+          "score": 0.953, 
+          "speaker": "SPEAKER_00", 
+          "start": 32.807, 
+          "word": "for"
+        }, 
+        {
+          "end": 33.027, 
+          "score": 0.565, 
+          "speaker": "SPEAKER_00", 
+          "start": 32.927, 
+          "word": "me."
+        }
+      ]
+    }, 
+    {
+      "segment": {
+        "end": 38.714, 
+        "speaker": "SPEAKER_01", 
+        "start": 34.209, 
+        "text": "That's why our team joined the Antler program, where we have a 10-week residency."
+      }, 
+      "words": [
+        {
+          "end": 34.369, 
+          "score": 0.926, 
+          "speaker": "SPEAKER_01", 
+          "start": 34.209, 
+          "word": "That's"
+        }, 
+        {
+          "end": 34.569, 
+          "score": 0.823, 
+          "speaker": "SPEAKER_01", 
+          "start": 34.409, 
+          "word": "why"
+        }, 
+        {
+          "end": 34.769, 
+          "score": 0.459, 
+          "speaker": "SPEAKER_01", 
+          "start": 34.589, 
+          "word": "our"
+        }, 
+        {
+          "end": 35.07, 
+          "score": 0.921, 
+          "speaker": "SPEAKER_01", 
+          "start": 34.809, 
+          "word": "team"
+        }, 
+        {
+          "end": 35.43, 
+          "score": 0.849, 
+          "speaker": "SPEAKER_01", 
+          "start": 35.13, 
+          "word": "joined"
+        }, 
+        {
+          "end": 35.53, 
+          "score": 0.997, 
+          "speaker": "SPEAKER_01", 
+          "start": 35.47, 
+          "word": "the"
+        }, 
+        {
+          "end": 35.871, 
+          "score": 0.673, 
+          "speaker": "SPEAKER_01", 
+          "start": 35.61, 
+          "word": "Antler"
+        }, 
+        {
+          "end": 36.331, 
+          "score": 0.848, 
+          "speaker": "SPEAKER_01", 
+          "start": 35.911, 
+          "word": "program,"
+        }, 
+        {
+          "end": 36.852, 
+          "score": 0.883, 
+          "speaker": "SPEAKER_01", 
+          "start": 36.671, 
+          "word": "where"
+        }, 
+        {
+          "end": 36.992, 
+          "score": 0.995, 
+          "speaker": "SPEAKER_01", 
+          "start": 36.912, 
+          "word": "we"
+        }, 
+        {
+          "end": 37.332, 
+          "score": 0.705, 
+          "speaker": "SPEAKER_01", 
+          "start": 37.032, 
+          "word": "have"
+        }, 
+        {
+          "end": 37.793, 
+          "score": 0.602, 
+          "speaker": "SPEAKER_01", 
+          "start": 37.693, 
+          "word": "a"
+        }, 
+        {
+          "end": 37.973, 
+          "score": 0.474, 
+          "speaker": "SPEAKER_01", 
+          "start": 37.813, 
+          "word": "10-week"
+        }, 
+        {
+          "end": 38.714, 
+          "score": 0.817, 
+          "speaker": "SPEAKER_01", 
+          "start": 38.073, 
+          "word": "residency."
+        }
+      ]
+    }, 
+    {
+      "segment": {
+        "end": 41.557, 
+        "speaker": "SPEAKER_01", 
+        "start": 39.294, 
+        "text": "And here we're going to revolutionize video editing."
+      }, 
+      "words": [
+        {
+          "end": 39.415, 
+          "score": 0.758, 
+          "speaker": "SPEAKER_01", 
+          "start": 39.294, 
+          "word": "And"
+        }, 
+        {
+          "end": 39.735, 
+          "score": 0.809, 
+          "speaker": "SPEAKER_01", 
+          "start": 39.515, 
+          "word": "here"
+        }, 
+        {
+          "end": 39.955, 
+          "score": 0.657, 
+          "speaker": "SPEAKER_01", 
+          "start": 39.815, 
+          "word": "we're"
+        }, 
+        {
+          "end": 40.115, 
+          "score": 0.166, 
+          "speaker": "SPEAKER_01", 
+          "start": 39.995, 
+          "word": "going"
+        }, 
+        {
+          "end": 40.195, 
+          "score": 0.007, 
+          "speaker": "SPEAKER_01", 
+          "start": 40.135, 
+          "word": "to"
+        }, 
+        {
+          "end": 40.956, 
+          "score": 0.849, 
+          "speaker": "SPEAKER_01", 
+          "start": 40.235, 
+          "word": "revolutionize"
+        }, 
+        {
+          "end": 41.257, 
+          "score": 0.532, 
+          "speaker": "SPEAKER_01", 
+          "start": 40.996, 
+          "word": "video"
+        }, 
+        {
+          "end": 41.557, 
+          "score": 0.602, 
+          "speaker": "SPEAKER_01", 
+          "start": 41.297, 
+          "word": "editing."
+        }
+      ]
+    }
+  ]
+}

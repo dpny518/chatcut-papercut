@@ -124,12 +124,6 @@ const Editor: React.FC<EditorProps> = ({ activeMode }) => {
           />
         </div>
       ))}
-      {copiedContent && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white p-4 border-t border-gray-200">
-          <p>Copied: {copiedContent.words.length} words</p>
-          <p>{copiedContent.text}</p>
-        </div>
-      )}
     </div>
   )
 }
