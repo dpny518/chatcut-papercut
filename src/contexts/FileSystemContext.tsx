@@ -115,7 +115,7 @@ export const FileSystemProvider: React.FC<{ children: React.ReactNode }> = ({ ch
           }
         };
       });
-  
+   
       console.log('File added successfully');
       setErrorState(null);
     } catch (error: unknown) {
