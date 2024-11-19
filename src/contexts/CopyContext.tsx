@@ -1,22 +1,22 @@
 // src/contexts/CopyContext.tsx
-'use client'
+
 import React, { createContext, useContext, useState } from 'react'
 
-interface CopiedContent {
-  text: string
-  metadata: {
-    sourceFile: string
-    startSegment: string
-    endSegment: string
-    startWord: number
-    endWord: number
-  }
+export interface CopiedWord {
+  sourceFile: string;
+  sourceSegmentIndex: number;
+  sourceWordIndex: number;
+  word: string;
 }
 
+export interface CopiedContent {
+  text: string;
+  words: CopiedWord[];
+}
 
 interface CopyContextType {
-  copiedContent: CopiedContent | null
-  setCopiedContent: (content: CopiedContent | null) => void
+  copiedContent: CopiedContent | null;
+  setCopiedContent: (content: CopiedContent | null) => void;
 }
 
 const CopyContext = createContext<CopyContextType | undefined>(undefined)

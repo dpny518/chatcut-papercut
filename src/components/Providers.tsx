@@ -1,4 +1,5 @@
 // src/components/Providers.tsx
+"use client";
 import { FileSystemProvider } from "@/contexts/FileSystemContext"
 import { EditorProvider } from "@/contexts/EditorContext"
 import { SidebarProvider } from "@/components/ui/sidebar"

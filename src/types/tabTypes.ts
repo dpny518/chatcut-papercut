@@ -1,18 +1,14 @@
 // src/types/tabTypes.ts
+import { CopiedWord } from '@/contexts/CopyContext'
 
 export interface TabMetadata {
-    pastedText: string;
-    pastePosition: number;
-    sourceFile: string;
-    startSegment: string;
-    endSegment: string;
-    startWord: number;
-    endWord: number;
-  }
-  
-  export interface Tab {
-    id: string;
-    title: string;
-    content: string;
-    metadata: TabMetadata[];
-  }
+  pastePosition: number;
+  words: CopiedWord[];
+}
+
+export interface Tab {
+  id: string;
+  title: string;
+  content: string;
+  metadata: TabMetadata[];
+}

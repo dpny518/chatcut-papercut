@@ -1,20 +1,18 @@
 // src/contexts/RightPanelContext.tsx
 'use client'
 import React, { createContext, useContext, useState, useCallback } from 'react'
+import { CopiedWord } from './CopyContext'
 
-interface TabMetadata {
-  pastedText: string
-  pastePosition: number
-  sourceFile: string
-  sourceSegment: string
-  sourceWord: string
+export interface TabMetadata {
+  pastePosition: number;
+  words: CopiedWord[];
 }
 
 interface Tab {
-  id: string
-  name: string
-  content: string
-  metadata: TabMetadata[]
+  id: string;
+  name: string;
+  content: string;
+  metadata: TabMetadata[];
 }
 
 interface RightPanelContextType {
@@ -49,10 +47,14 @@ export const RightPanelProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   }, [])
 
   const updateTabContent = useCallback((tabId: string, newContent: { text: string, metadata: TabMetadata[] }) => {
-    setTabs(prevTabs => prevTabs.map(tab => 
-      tab.id === tabId ? { ...tab, content: newContent.text, metadata: newContent.metadata } : tab
-    ))
-  }, [])
+    setTabs(prevTabs => {
+      const updatedTabs = prevTabs.map(tab => 
+        tab.id === tabId ? { ...tab, content: newContent.text, metadata: newContent.metadata } : tab
+      );
+      console.log('Updated tabs:', updatedTabs);
+      return updatedTabs;
+    });
+  }, []);
 
   return (
     <RightPanelContext.Provider value={{ tabs, activeTabId, addTab, renameTab, setActiveTab, updateTabContent }}>

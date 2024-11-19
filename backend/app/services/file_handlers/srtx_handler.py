@@ -27,17 +27,28 @@ async def parse(content):
     logger.info(f"Found {len(matches)} matches in SRTX content")
 
     parsed_content = []
-    for match in matches:
+    for index, match in enumerate(matches, start=1):
         index, start_time, end_time, speaker, text = match
         start = parse_time(start_time)
         end = parse_time(end_time)
+        
+        words = text.split()
+        word_list = []
+        
+        for word in words:
+            word_list.append({
+                "start": -1,  # Use -1 to indicate timing is not available
+                "end": -1,    # Use -1 to indicate timing is not available
+                "word": word
+            })
         
         parsed_content.append({
             "index": int(index),
             "start_time": start.total_seconds(),
             "end_time": end.total_seconds(),
             "text": text.strip(),
-            "speaker": speaker.strip()
+            "speaker": speaker.strip(),
+            "words": word_list
         })
 
     logger.info(f"Parsed {len(parsed_content)} segments from SRTX")

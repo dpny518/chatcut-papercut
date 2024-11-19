@@ -80,6 +80,7 @@ async def parse_to_schema(file_or_content):
         uploaded_on = datetime.utcnow().isoformat() + "Z"
 
         current_segment = None
+        segment_index = 1  # Initialize segment_index here
         
         for para in doc.paragraphs:
             text = para.text.strip()
@@ -97,24 +98,27 @@ async def parse_to_schema(file_or_content):
                 
                 # Start new segment
                 current_segment = {
-                    "segment_id": str(uuid.uuid4()),
+                    "index": segment_index,
                     "start_time": timestamp_to_seconds(timestamp),
                     "end_time": None,  # Will be set later
-                    "speaker": speaker,
                     "text": clean_text(remaining_text),
-                    "words": []
+                    "speaker": speaker,
+                    "words": [{"start": -1, "end": -1, "word": word} for word in clean_text(remaining_text).split()]
                 }
+
+                segment_index += 1
             elif current_segment:
                 # Append text to current segment
                 cleaned_text = clean_text(text)
                 if cleaned_text:
                     current_segment["text"] += " " + cleaned_text
-
+                    current_segment["words"].extend([{"start": -1, "end": -1, "word": word} for word in cleaned_text.split()])
+                    
         # Add the last segment
         if current_segment:
             segments.append(current_segment)
 
-        # Set end times and process words
+        # Set end times
         for i, segment in enumerate(segments):
             # Set end time based on next segment's start time
             if i < len(segments) - 1:
@@ -122,12 +126,6 @@ async def parse_to_schema(file_or_content):
             else:
                 # For the last segment, add 60 seconds
                 segment["end_time"] = segment["start_time"] + 60
-
-            # Process words
-            segment["words"] = [
-                {"word": word}
-                for word in segment["text"].split()
-            ]
 
         total_duration = segments[-1]["end_time"] if segments else 0
 

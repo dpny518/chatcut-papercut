@@ -2,11 +2,12 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import { useRightPanel } from '@/contexts/RightPanelContext'
-import { useCopy } from '@/contexts/CopyContext'
+import { useCopy, CopiedWord } from '@/contexts/CopyContext'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { ClipboardPaste } from 'lucide-react'
+import { TabMetadata } from '@/types/tabTypes'
 
 interface TabContentProps {
   activeTabId: string
@@ -14,7 +15,7 @@ interface TabContentProps {
 
 const TabContent: React.FC<TabContentProps> = ({ activeTabId }) => {
   const { tabs, updateTabContent } = useRightPanel()
-  const { copiedContent } = useCopy()
+  const { copiedContent, setCopiedContent } = useCopy()
   const [cursorPosition, setCursorPosition] = useState<number>(0)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
@@ -39,37 +40,38 @@ const TabContent: React.FC<TabContentProps> = ({ activeTabId }) => {
   const handlePaste = () => {
     console.log('🚀 Paste Button Clicked')
     console.log('Current Copied Content:', copiedContent)
-
+  
     if (copiedContent && activeTab) {
       console.log('✅ Attempting to Paste')
       
       const newContent = content.substring(0, cursorPosition) + copiedContent.text + content.substring(cursorPosition)
       
-      const newMetadata = {
-        pastedText: copiedContent.text,
+      const newMetadata: TabMetadata = {
         pastePosition: cursorPosition,
-        sourceFile: copiedContent.metadata.sourceFile,
-        sourceSegment: copiedContent.metadata.startSegment,
-        sourceWord: copiedContent.metadata.startWord.toString()
+        words: copiedContent.words
       }
-
+  
       console.log('New Content:', newContent)
       console.log('New Metadata:', newMetadata)
-
+  
       const updatedContent = {
         text: newContent,
         metadata: [...activeTab.metadata, newMetadata]
       }
-
+  
       console.log('Updated Content Object:', updatedContent)
-
+  
       updateTabContent(activeTabId, updatedContent)
       setCursorPosition(cursorPosition + copiedContent.text.length)
+  
+      // Clear the copied content after successful paste
+      setCopiedContent(null)
+      console.log('Cleared copied content after paste')
     } else {
       console.error('❌ No Copied Content Available or No Active Tab')
     }
   }
-
+  
   const renderHoverCards = () => {
     let position = 0
     return content.split(' ').map((word, index) => {
@@ -78,9 +80,14 @@ const TabContent: React.FC<TabContentProps> = ({ activeTabId }) => {
       
       const metadata = activeTab?.metadata.find(m => 
         wordPosition >= m.pastePosition && 
-        wordPosition < m.pastePosition + m.pastedText.length
+        wordPosition < m.pastePosition + m.words.reduce((acc, w) => acc + w.word.length + 1, 0)
       )
-
+  
+      const copiedWord = metadata?.words.find((w, i) => 
+        wordPosition >= metadata.pastePosition + metadata.words.slice(0, i).reduce((acc, w) => acc + w.word.length + 1, 0) &&
+        wordPosition < metadata.pastePosition + metadata.words.slice(0, i + 1).reduce((acc, w) => acc + w.word.length + 1, 0)
+      )
+  
       return (
         <HoverCard key={`${index}-${wordPosition}-${word}`}>
           <HoverCardTrigger asChild>
@@ -90,11 +97,11 @@ const TabContent: React.FC<TabContentProps> = ({ activeTabId }) => {
             <div className="space-y-2">
               <p className="text-sm font-medium">Word: {word}</p>
               <p className="text-sm">Position: {wordPosition}</p>
-              {metadata && (
+              {copiedWord && (
                 <>
-                  <p className="text-sm">Source File: {metadata.sourceFile}</p>
-                  <p className="text-sm">Source Segment: {metadata.sourceSegment}</p>
-                  <p className="text-sm">Source Word: {metadata.sourceWord}</p>
+                  <p className="text-sm">Source File: {copiedWord.sourceFile}</p>
+                  <p className="text-sm">Source Segment Index: {copiedWord.sourceSegmentIndex}</p>
+                  <p className="text-sm">Source Word Index: {copiedWord.sourceWordIndex}</p>
                 </>
               )}
             </div>
