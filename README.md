@@ -43,50 +43,63 @@ The application uses the App Router structure of Next.js and incorporates compon
 
 File Structure:
 
-chatcut-papercut/
-├── src/
-│   ├── app/
-│   │   ├── layout.tsx       # Root layout component
-│   │   ├── page.tsx         # Home page component
-│   │   └── globals.css      # Global styles
-│   ├── components/
-│   │   ├── ui/
-│   │   │   └── sidebar.tsx  # shadcn/ui sidebar component
-│   │   ├── AppSidebar.tsx   # Custom sidebar component
-│   │   ├── CenterPanel.tsx  # Main center panel component
-│   │   ├── RightPanel.tsx   # Right panel component
-│   │   ├── CenterPanel/
-│   │   │   ├── Toolbar.tsx  # Toolbar component for center panel
-│   │   │   └── Editor.tsx   # Text editor component
-│   │   └── RightPanel/
-│   │       ├── TabManager.tsx  # Tab management component
-│   │       └── TabContent.tsx  # Content for each tab
-│   ├── contexts/            # (If we decide to use React Context)
-│   ├── hooks/               # (For custom hooks, if needed)
-│   ├── store/               # (If we decide to use state management)
-│   ├── services/            # (For API calls or other services)
-│   ├── utils/               # (For utility functions)
-│   └── types/               # (For TypeScript type definitions)
-├── public/                  # Public assets
-├── package.json             # Project dependencies and scripts
-├── tsconfig.json            # TypeScript configuration
-└── tailwind.config.js       # Tailwind CSS configuration
-Key Components:
+Project Structure:
+```
+/src
+  /app - Next.js app router structure
+  /components - React components including Editor, Panels
+  /contexts - React context providers for state management
+  /services - API and file system services
+  /types - TypeScript type definitions
+/backend
+  /app
+    /api - FastAPI endpoints
+    /services - File processing and handlers
+```
 
-AppSidebar: Implements the file structure in the left sidebar.
-CenterPanel: Contains the main editor area with a toolbar.
-RightPanel: Implements a tab system for additional functionality.
-Current State:
+Data Flow:
 
-We have a basic layout set up with the three panels.
-The sidebar has a collapsible file structure.
-The center panel has a placeholder for a text editor and toolbar.
-The right panel has a basic tab system in place.
-Next Steps:
+1. File Upload Flow:
+- User selects file(s) in the frontend
+- FileSystemContext.tsx handles the upload via `addFile()` function
+- Files are sent to backend endpoint `http://52.76.236.100:8000/api/v1/upload`
+- Backend `file_processor.py` processes the file based on type:
+  - docx_handler.py for .docx files
+  - srtx_handler.py for .srtx files 
+  - json_handler.py for .json files
+  - Each handler parses into a common transcript schema
 
-Implement actual text editing functionality in the center panel.
-Add more interactive elements to the toolbar.
-Develop the content for the right panel tabs.
-Implement state management if needed (e.g., for managing open files, editor content).
-Add any necessary API integrations or services.
-This structure provides a solid foundation for building out the rest of the application's functionality. The modular component structure allows for easy expansion and maintenance as the project grows.
+2. State Management (Contexts):
+- FileSystemContext: Manages uploaded files and file tree structure
+- EditorContext: Manages the editor content and state
+- HighlightContext: Manages green/red highlights
+- CopyContext: Manages copied text selections
+
+3. Editor & Selection Flow:
+- Selected files are merged in CenterPanel/Editor.tsx
+- Editor uses ContentRenderer to display transcript segments
+- Users can:
+  - Select text which triggers handleTextSelection()
+  - Highlight selections in green/red via HighlightContext
+  - Copy selections via CopyContext
+  - See speaker names, timestamps, and transcript text
+
+4. Data Schema:
+The transcript schema (transcript.ts) includes:
+- Words with timing info
+- Segments with speaker and timing
+- Project metadata
+- File info for original/processed paths
+
+5. Key Components:
+- CenterPanel: Main editor area
+- LeftPanel: File structure/navigation
+- RightPanel: Additional tools/info
+- Editor: Core transcript editing component
+
+The project follows a clean architecture with:
+- Clear separation between frontend/backend
+- Context-based state management
+- Consistent file processing pipeline
+- TypeScript for type safety
+- Component-based UI structure
